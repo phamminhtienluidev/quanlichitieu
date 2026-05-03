@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Nền màu trắng -->
+  <rect width="512" height="512" fill="#ffffff" rx="120"/>
+  
+  <!-- Cột thứ nhất (Thấp) -->
+  <rect x="136" y="320" width="56" height="80" rx="16" fill="#000000"/>
+  
+  <!-- Cột thứ hai (Vừa) -->
+  <rect x="228" y="220" width="56" height="180" rx="16" fill="#000000"/>
+  
+  <!-- Cột thứ ba (Cao nhất - Tăng trưởng) -->
+  <rect x="320" y="120" width="56" height="280" rx="16" fill="#000000"/>
+  
+  <!-- Một hình tròn nhỏ tinh tế lơ lửng (tượng trưng cho đồng xu/sự hoàn hảo) -->
+  <circle cx="164" cy="240" r="28" fill="#000000"/>
+</svg>
