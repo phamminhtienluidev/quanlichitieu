@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#acabab",
+                    "on-primary-fixed": "#ffffff",
+                    "surface-variant": "#e2e2e4",
+                    "surface-dim": "#d9dadc",
+                    "tertiary-fixed-dim": "#464747",
+                    "secondary-container": "#d6d4d3",
+                    "on-tertiary-fixed": "#ffffff",
+                    "on-tertiary-fixed-variant": "#e3e2e2",
+                    "inverse-surface": "#2f3132",
+                    "primary-container": "#3b3b3b",
+                    "on-secondary-container": "#1b1c1c",
+                    "primary-fixed-dim": "#474747",
+                    "on-surface-variant": "#474747",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "outline-variant": "#c6c6c6",
+                    "on-tertiary-container": "#ffffff",
+                    "background": "#f9f9fb",
+                    "tertiary-fixed": "#5e5e5e",
+                    "on-surface": "#1a1c1d",
+                    "surface-container": "#eeeef0",
+                    "on-primary-fixed-variant": "#e2e2e2",
+                    "on-primary-container": "#ffffff",
+                    "on-tertiary": "#e3e2e2",
+                    "surface-bright": "#f9f9fb",
+                    "tertiary-container": "#747474",
+                    "primary": "#000000",
+                    "on-secondary-fixed-variant": "#3b3b3b",
+                    "inverse-on-surface": "#f0f0f2",
+                    "on-background": "#1a1c1d",
+                    "surface-container-highest": "#e2e2e4",
+                    "error-container": "#ffdad6",
+                    "surface": "#f9f9fb",
+                    "on-error-container": "#410002",
+                    "surface-container-high": "#e8e8ea",
+                    "secondary-fixed": "#c8c6c6",
+                    "inverse-primary": "#c6c6c6",
+                    "error": "#ba1a1a",
+                    "outline": "#777777",
+                    "surface-tint": "#5e5e5e",
+                    "surface-container-low": "#f3f3f5",
+                    "tertiary": "#3b3b3c",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "on-primary": "#e2e2e2",
+                    "secondary": "#5f5e5e",
+                    "primary-fixed": "#5e5e5e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Anchor -->
+<nav class="w-full top-0 sticky bg-[#f9f9fb] dark:bg-neutral-950 flex justify-between items-center px-6 py-4 z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-black dark:text-white cursor-pointer active:scale-95 transition-transform">close</span>
+</div>
+<h1 class="text-black dark:text-white font-black tracking-tighter text-xl">MONO LEDGER</h1>
+<div class="w-6"></div> <!-- Spacer for center alignment -->
+</nav>
+<main class="min-h-[calc(100vh-160px)] flex flex-col px-6 pt-12 pb-24 max-w-md mx-auto">
+<!-- Editorial Header Section -->
+<header class="mb-16">
+<p class="font-['Inter'] uppercase tracking-[0.2em] text-[10px] font-bold text-outline mb-4">Secure Gateway</p>
+<h2 class="text-[3.5rem] leading-[1.1] font-black tracking-tighter text-on-surface">SIGN IN</h2>
+</header>
+<!-- Identity Canvas (Form) -->
+<section class="space-y-12">
+<!-- Input Field: Email -->
+<div class="group">
+<label class="block font-['Inter'] font-medium text-[11px] uppercase tracking-widest text-outline mb-2">Email Address</label>
+<input class="w-full bg-transparent border-b-2 border-primary py-4 text-lg font-headline tracking-tight focus:outline-none placeholder:text-surface-dim transition-all" placeholder="identity@domain.com" type="email"/>
+</div>
+<!-- Input Field: Password -->
+<div class="group">
+<div class="flex justify-between items-end mb-2">
+<label class="font-['Inter'] font-medium text-[11px] uppercase tracking-widest text-outline">Password</label>
+<a class="font-['Inter'] text-[11px] uppercase tracking-widest text-outline hover:text-primary transition-colors underline decoration-outline-variant/30 underline-offset-4" href="#">Forgot Password?</a>
+</div>
+<input class="w-full bg-transparent border-b-2 border-primary py-4 text-lg font-headline tracking-tight focus:outline-none placeholder:text-surface-dim transition-all" placeholder="••••••••" type="password"/>
+</div>
+<!-- Primary Action -->
+<div class="pt-4">
+<button class="w-full h-16 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold tracking-[0.1em] text-xs uppercase flex items-center justify-center gap-3 active:scale-95 transition-all shadow-lg shadow-black/5">
+<span>ACCESS VAULT</span>
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'wght' 700;">lock</span>
+</button>
+</div>
+</section>
+<!-- Divider Logic -->
+<div class="flex items-center gap-4 my-16">
+<div class="h-px flex-1 bg-surface-container-high"></div>
+<span class="font-['Inter'] font-medium text-[10px] uppercase tracking-widest text-outline">Continue with</span>
+<div class="h-px flex-1 bg-surface-container-high"></div>
+</div>
+<!-- Social Integration Bento -->
+<section class="grid grid-cols-2 gap-4">
+<button class="flex flex-col items-center justify-center py-6 rounded-xl bg-surface-container-lowest border border-outline-variant/10 hover:bg-surface-container-high transition-colors active:scale-95 group">
+<div class="w-8 h-8 mb-2 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-2.12 5.4-7.84 5.4-4.96 0-9-4.12-9-9.16s4.04-9.16 9-9.16c2.84 0 4.76 1.2 5.84 2.24l2.56-2.48C19.04 1.88 16.04 0 12.48 0 5.84 0 0.48 5.36 0.48 12s5.36 12 12 12c6.88 0 11.48-4.84 11.48-11.64 0-.8-.08-1.4-.24-2.04h-11.24z"></path></svg>
+</div>
+<span class="font-['Inter'] font-bold text-[10px] uppercase tracking-widest">Google</span>
+</button>
+<button class="flex flex-col items-center justify-center py-6 rounded-xl bg-surface-container-lowest border border-outline-variant/10 hover:bg-surface-container-high transition-colors active:scale-95 group">
+<div class="w-8 h-8 mb-2 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M17.073 10.117c-.032-2.392 1.948-3.535 2.038-3.593-1.111-1.626-2.836-1.848-3.45-1.874-1.464-.148-2.859.863-3.601.863-.743 0-1.905-.845-3.144-.821-1.629.025-3.132.949-3.97 2.404-1.693 2.94-.433 7.289 1.218 9.673.808 1.168 1.77 2.478 3.032 2.429 1.216-.048 1.674-.783 3.144-.783 1.47 0 1.883.783 3.166.758 1.306-.024 2.138-1.187 2.942-2.361.928-1.356 1.312-2.67 1.332-2.738-.028-.013-2.564-.984-2.59-3.907zM14.93 4.18c.656-.795 1.1-1.899.98-3.003-.949.038-2.096.633-2.777 1.428-.611.706-1.144 1.832-1.002 2.91 1.059.083 2.143-.54 2.799-1.335z"></path></svg>
+</div>
+<span class="font-['Inter'] font-bold text-[10px] uppercase tracking-widest">Apple</span>
+</button>
+</section>
+<!-- Secondary Footnote -->
+<footer class="mt-auto pt-16 flex flex-col items-center">
+<p class="font-['Inter'] text-[11px] text-outline tracking-wide mb-2">New to Mono Ledger?</p>
+<button class="font-['Inter'] font-bold text-[12px] uppercase tracking-widest text-primary border-b border-primary/20 pb-1 hover:border-primary transition-all">Create Account</button>
+</footer>
+</main>
+<!-- Contextual Visual Element (Abstract Glass Card) -->
+<div class="fixed top-1/2 -right-16 w-32 h-64 bg-surface-container-high rotate-12 -z-10 rounded-full blur-3xl opacity-40"></div>
+<div class="fixed bottom-0 -left-16 w-48 h-48 bg-primary/5 -z-10 rounded-full blur-3xl opacity-30"></div>
+<!-- Bottom Navigation Shell (Filter: Sign In is a Focused Journey, but provided as per blueprint) -->
+<!-- The Shell Visibility Rule says suppress on transactional. However, instructions also mandate rendering if relevant. 
+         I will render it with the active state logic for "SIGN IN" -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-8 bg-[#f9f9fb]/85 dark:bg-neutral-950/85 backdrop-blur-xl border-t border-black/5 dark:border-white/5 z-50 shadow-[0_-12px_24px_rgba(26,28,29,0.06)]">
+<a class="flex flex-col items-center justify-center text-black dark:text-white font-bold transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1">login</span>
+<span class="font-['Inter'] font-medium text-[10px] uppercase tracking-widest">SIGN IN</span>
+</a>
+<a class="flex flex-col items-center justify-center text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1">person_add</span>
+<span class="font-['Inter'] font-medium text-[10px] uppercase tracking-widest">CREATE</span>
+</a>
+</nav>
+</body></html>

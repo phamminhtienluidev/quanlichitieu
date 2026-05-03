@@ -1,0 +1,445 @@
+.main {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 6rem 1.5rem 15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Hero Section */
+.heroSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeInUp 0.4s ease-out both;
+}
+
+.heroHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.heroIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--color-primary);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroLabel {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.heroTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+/* Insight Grid */
+.insightGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .insightGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .insightCardWide {
+    grid-column: span 2;
+  }
+}
+
+.insightCardWide {
+  background-color: var(--color-surface-container-lowest);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(198, 198, 198, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.insightTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.badgeDark {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border-radius: var(--radius-sm);
+}
+
+.insightMeta {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--color-secondary);
+}
+
+.insightBody {
+  font-size: 1.125rem;
+  line-height: 1.625;
+  font-weight: 500;
+}
+
+.underline {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+.boldLg {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.progressTrack {
+  height: 0.25rem;
+  background-color: var(--color-surface-container);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: var(--color-primary);
+}
+
+.progressLabel {
+  font-size: 0.6875rem;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.insightCardTonal {
+  background-color: var(--color-surface-container-low);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 10rem;
+}
+
+.insightSmLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.insightBigText {
+  font-size: 1.875rem;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.insightCardDark {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 10rem;
+}
+
+.darkSmLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.darkBigText {
+  font-size: 1.875rem;
+  font-weight: 900;
+}
+
+/* Chat Section */
+.chatSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: fadeInUp 0.4s ease-out 0.05s both;
+}
+
+.sectionTitle {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  border-bottom: 1px solid rgba(198, 198, 198, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.chatList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.aiMsg {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  max-width: 90%;
+}
+
+.avatarAI {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: var(--color-surface-container-high);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.msgBubbleAI {
+  background-color: var(--color-surface-container-lowest);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border-top-left-radius: 0;
+  border: 1px solid rgba(198, 198, 198, 0.1);
+  font-size: 0.875rem;
+  line-height: 1.625;
+}
+
+.bubbleActions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btnSecondary {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: 0.375rem 0.75rem;
+  background-color: var(--color-surface-container-high);
+  border-radius: 0.5rem;
+  transition: background-color 150ms ease;
+}
+
+.btnSecondary:hover {
+  background-color: var(--color-surface-variant);
+}
+
+.userMsg {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  max-width: 90%;
+  margin-left: auto;
+  flex-direction: row-reverse;
+}
+
+.avatarUser {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.msgBubbleUser {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border-top-right-radius: 0;
+  font-size: 0.875rem;
+}
+
+/* Sparkline */
+.sparklineContainer {
+  height: 6rem;
+  width: 100%;
+  background-color: var(--color-surface-container-low);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 1rem 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.sparkbar {
+  width: 0.5rem;
+  background-color: var(--color-secondary);
+  border-radius: 2px 2px 0 0;
+}
+
+.sparkbarActive {
+  width: 0.5rem;
+  background-color: var(--color-primary);
+  border-radius: 2px 2px 0 0;
+}
+
+.sparkLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.sparkLabels span {
+  font-size: 10px;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Suggest Section */
+.suggestSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: fadeInUp 0.4s ease-out 0.1s both;
+}
+
+.sectionTitleAlt {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.suggestList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.suggestItem {
+  background-color: var(--color-surface-container-low);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.suggestItem:hover {
+  background-color: var(--color-surface-container-high);
+}
+
+.suggestLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Floating Chat Input */
+.floatingInput {
+  position: fixed;
+  bottom: 6rem;
+  left: 0;
+  right: 0;
+  padding: 0 1.5rem;
+  max-width: 42rem;
+  margin: 0 auto;
+  z-index: 40;
+}
+
+.inputBar {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(198, 198, 198, 0.2);
+  box-shadow: 0 12px 24px rgba(26, 28, 29, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.chatInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.chatInput::placeholder {
+  color: #a1a1aa;
+}
+
+.sendBtn {
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--color-primary);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loadingDots {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.loadingDots span {
+  animation: blink 1.4s infinite both;
+  font-size: 1.5rem;
+  line-height: 0.5;
+}
+
+.loadingDots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loadingDots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% { opacity: 0.2; }
+  20% { opacity: 1; }
+  100% { opacity: 0.2; }
+}

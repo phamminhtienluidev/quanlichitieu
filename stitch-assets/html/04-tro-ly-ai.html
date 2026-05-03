@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#c6c6c6",
+                    "secondary-fixed": "#c8c6c6",
+                    "surface-container-low": "#f3f3f5",
+                    "on-tertiary-fixed-variant": "#e3e2e2",
+                    "surface-variant": "#e2e2e4",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#1b1c1c",
+                    "outline": "#777777",
+                    "surface-container-high": "#e8e8ea",
+                    "tertiary": "#3b3b3c",
+                    "on-primary-fixed-variant": "#e2e2e2",
+                    "on-error-container": "#410002",
+                    "secondary": "#5f5e5e",
+                    "on-primary-fixed": "#ffffff",
+                    "on-surface": "#1a1c1d",
+                    "surface-tint": "#5e5e5e",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-background": "#1a1c1d",
+                    "primary-fixed-dim": "#474747",
+                    "inverse-on-surface": "#f0f0f2",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "surface-container": "#eeeef0",
+                    "secondary-fixed-dim": "#acabab",
+                    "on-primary": "#e2e2e2",
+                    "on-tertiary": "#e3e2e2",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#d9dadc",
+                    "surface": "#f9f9fb",
+                    "primary-container": "#3b3b3b",
+                    "on-primary-container": "#ffffff",
+                    "tertiary-container": "#747474",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#ffffff",
+                    "surface-bright": "#f9f9fb",
+                    "inverse-surface": "#2f3132",
+                    "tertiary-fixed-dim": "#464747",
+                    "background": "#f9f9fb",
+                    "primary": "#000000",
+                    "outline-variant": "#c6c6c6",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#d6d4d3",
+                    "primary-fixed": "#5e5e5e",
+                    "on-tertiary-fixed": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#3b3b3b",
+                    "on-surface-variant": "#474747",
+                    "tertiary-fixed": "#5e5e5e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-slate-50/85 dark:bg-zinc-950/85 backdrop-blur-xl fixed top-0 w-full z-50">
+<div class="flex justify-between items-center px-6 h-16 w-full">
+<div class="hover:opacity-70 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-black dark:text-white">menu</span>
+</div>
+<h1 class="text-lg font-black tracking-tighter text-black dark:text-white font-['Inter']">MONO LEDGER</h1>
+<div class="hover:opacity-70 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-black dark:text-white">notifications</span>
+</div>
+</div>
+</header>
+<main class="max-w-2xl mx-auto px-6 pt-24 space-y-10">
+<!-- AI Insight Hero Section -->
+<section class="space-y-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<p class="text-[0.6875rem] font-medium tracking-[0.05em] uppercase text-secondary">AI Spending Analysis</p>
+<h2 class="text-2xl font-bold tracking-tight">Financial Intelligence</h2>
+</div>
+</div>
+<!-- Bento Grid Insight -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="col-span-1 md:col-span-2 bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/15 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="text-[0.6875rem] font-semibold tracking-widest uppercase py-1 px-2 bg-primary text-on-primary rounded">Warning</span>
+<span class="text-[0.6875rem] font-medium text-secondary">Updated 2m ago</span>
+</div>
+<p class="text-lg leading-relaxed font-medium">You spent <span class="underline decoration-2 decoration-primary">20% more</span> on dining this month. Try setting a limit of <span class="font-bold text-xl">$200</span> to stay on track for your savings goal.</p>
+<div class="h-1 bg-surface-container overflow-hidden rounded-full mt-2">
+<div class="h-full bg-primary w-[85%]"></div>
+</div>
+<p class="text-[0.6875rem] text-secondary uppercase tracking-tight">85% of monthly dining budget used</p>
+</div>
+<div class="bg-surface-container-low p-5 rounded-xl flex flex-col justify-between h-40">
+<span class="text-[0.6875rem] font-semibold tracking-widest uppercase text-secondary">Status</span>
+<div class="space-y-1">
+<h3 class="text-3xl font-black italic">SAFE</h3>
+<p class="text-[0.6875rem] text-secondary uppercase">Fixed Expenses</p>
+</div>
+</div>
+<div class="bg-primary text-on-primary p-5 rounded-xl flex flex-col justify-between h-40">
+<span class="text-[0.6875rem] font-semibold tracking-widest uppercase opacity-70">Optimization</span>
+<div class="space-y-1">
+<h3 class="text-3xl font-black">$42.50</h3>
+<p class="text-[0.6875rem] opacity-70 uppercase">Potential Monthly Savings</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Conversational Interface -->
+<section class="space-y-4">
+<h3 class="text-[0.6875rem] font-bold tracking-[0.1em] uppercase text-secondary border-b border-outline-variant/10 pb-2">Analysis History</h3>
+<div class="space-y-6">
+<!-- AI Message -->
+<div class="flex gap-4 items-start max-w-[90%]">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl rounded-tl-none border border-outline-variant/10">
+<p class="text-sm leading-relaxed">I noticed your subscription spending increased. You have three active streaming services. Cancelling the one you use least could save you <span class="font-bold">$15.99/mo</span>.</p>
+<div class="mt-4 flex gap-2">
+<button class="text-[0.6875rem] font-bold uppercase tracking-tight px-3 py-1.5 bg-surface-container-high rounded-lg hover:bg-surface-variant transition-colors">Review Subs</button>
+<button class="text-[0.6875rem] font-bold uppercase tracking-tight px-3 py-1.5 bg-surface-container-high rounded-lg hover:bg-surface-variant transition-colors">Dismiss</button>
+</div>
+</div>
+</div>
+<!-- User Message Placeholder (Visual Context) -->
+<div class="flex gap-4 items-start max-w-[90%] ml-auto flex-row-reverse">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary text-sm">person</span>
+</div>
+<div class="bg-primary text-on-primary p-4 rounded-xl rounded-tr-none">
+<p class="text-sm">Show me my grocery trends for the last quarter.</p>
+</div>
+</div>
+<!-- AI Message with Graph -->
+<div class="flex gap-4 items-start max-w-[90%]">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl rounded-tl-none border border-outline-variant/10 w-full">
+<p class="text-sm leading-relaxed mb-4">Groceries are trending down. You're becoming more efficient with meal planning.</p>
+<div class="h-24 w-full bg-surface-container-low rounded flex items-end justify-between px-4 pb-2 relative overflow-hidden">
+<!-- Simple Sparkline Representation using div height -->
+<div class="w-2 bg-secondary opacity-20 h-[70%] rounded-t-sm"></div>
+<div class="w-2 bg-secondary opacity-30 h-[85%] rounded-t-sm"></div>
+<div class="w-2 bg-secondary opacity-50 h-[60%] rounded-t-sm"></div>
+<div class="w-2 bg-primary h-[40%] rounded-t-sm"></div>
+<div class="w-2 bg-primary h-[30%] rounded-t-sm"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent pointer-events-none"></div>
+</div>
+<div class="flex justify-between mt-2">
+<span class="text-[10px] text-secondary uppercase font-bold">Jan</span>
+<span class="text-[10px] text-secondary uppercase font-bold">May</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Suggested Actions -->
+<section class="space-y-4">
+<h3 class="text-[0.6875rem] font-bold tracking-[0.1em] uppercase text-secondary">Smart Suggestions</h3>
+<div class="space-y-2">
+<div class="bg-surface-container-low hover:bg-surface-container-high transition-colors p-4 rounded-xl flex items-center justify-between cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors">savings</span>
+<span class="text-sm font-medium">Round-up spare change to 'Vacation Fund'</span>
+</div>
+<span class="material-symbols-outlined text-sm text-outline-variant">chevron_right</span>
+</div>
+<div class="bg-surface-container-low hover:bg-surface-container-high transition-colors p-4 rounded-xl flex items-center justify-between cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors">timer</span>
+<span class="text-sm font-medium">Set a 48-hour cool-down for luxury items</span>
+</div>
+<span class="material-symbols-outlined text-sm text-outline-variant">chevron_right</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 border-t border-zinc-200/20 bg-white/70 dark:bg-black/70 backdrop-blur-xl shadow-[0_-12px_24px_rgba(26,28,29,0.06)]">
+<div class="flex justify-around items-center h-20 pb-safe w-full">
+<!-- Overview -->
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-600 hover:text-black dark:hover:text-white transition-colors active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined">home_app_logo</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold mt-1">Overview</span>
+</div>
+<!-- Stats -->
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-600 hover:text-black dark:hover:text-white transition-colors active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined">equalizer</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold mt-1">Stats</span>
+</div>
+<!-- ACTIVE: AI -->
+<div class="flex flex-col items-center justify-center text-black dark:text-white transition-colors active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined">bubble_chart</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold mt-1">AI</span>
+</div>
+<!-- Profile -->
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-600 hover:text-black dark:hover:text-white transition-colors active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold mt-1">Profile</span>
+</div>
+</div>
+</nav>
+<!-- Floating Quick Chat Input -->
+<div class="fixed bottom-24 left-0 right-0 px-6 max-w-2xl mx-auto">
+<div class="bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-6 py-3 border border-outline-variant/20 shadow-[0_12px_24px_rgba(26,28,29,0.08)] flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary">mic</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm flex-1 placeholder:text-zinc-400" placeholder="Ask about your spending..." type="text"/>
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm">arrow_upward</span>
+</div>
+</div>
+</div>
+</body></html>

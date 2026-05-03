@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#c6c6c6",
+                        "secondary-fixed": "#c8c6c6",
+                        "surface-container-low": "#f3f3f5",
+                        "on-tertiary-fixed-variant": "#e3e2e2",
+                        "surface-variant": "#e2e2e4",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#1b1c1c",
+                        "outline": "#777777",
+                        "surface-container-high": "#e8e8ea",
+                        "tertiary": "#3b3b3c",
+                        "on-primary-fixed-variant": "#e2e2e2",
+                        "on-error-container": "#410002",
+                        "secondary": "#5f5e5e",
+                        "on-primary-fixed": "#ffffff",
+                        "on-surface": "#1a1c1d",
+                        "surface-tint": "#5e5e5e",
+                        "surface-container-highest": "#e2e2e4",
+                        "on-background": "#1a1c1d",
+                        "primary-fixed-dim": "#474747",
+                        "inverse-on-surface": "#f0f0f2",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "surface-container": "#eeeef0",
+                        "secondary-fixed-dim": "#acabab",
+                        "on-primary": "#e2e2e2",
+                        "on-tertiary": "#e3e2e2",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d9dadc",
+                        "surface": "#f9f9fb",
+                        "primary-container": "#3b3b3b",
+                        "on-primary-container": "#ffffff",
+                        "tertiary-container": "#747474",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#ffffff",
+                        "surface-bright": "#f9f9fb",
+                        "inverse-surface": "#2f3132",
+                        "tertiary-fixed-dim": "#464747",
+                        "background": "#f9f9fb",
+                        "primary": "#000000",
+                        "outline-variant": "#c6c6c6",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#d6d4d3",
+                        "primary-fixed": "#5e5e5e",
+                        "on-tertiary-fixed": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#3b3b3b",
+                        "on-surface-variant": "#474747",
+                        "tertiary-fixed": "#5e5e5e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Top Navigation -->
+<header class="bg-[#f9f9fb]/85 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0_12px_24px_rgba(26,28,29,0.04)] flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#1a1c1d]" data-icon="menu">menu</span>
+</div>
+<h1 class="text-xl font-black tracking-tighter text-[#000000] uppercase">Atelier</h1>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional woman with a minimalist aesthetic against a neutral studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkOBKv7cE8gGmpEFFyli0FU4YYxofYUQ3yAdf4FzdmE_dU_HQreUw4CUtUZi1Ve-QBKKpbktqZJWg-YjI2HPYRQRx7ggn6qWgRCKE0httkx2gI2s8oi0_dEICrPJUsCXFuD7gO9N321sz9y8QAiox8M2NuVCpZ9jONWO9lOK2e-ZkjoAn9C3jZBr7DWMs2xlgHyau5kEI1zET0U7wrN8uKieD8D0tir05duPUmjvJb6dIYrZSiD2N27coyhURCDy_3k664vCnUyQ"/>
+</div>
+</header>
+<main class="max-w-screen-md mx-auto px-6 pt-8 pb-32">
+<!-- Monthly Selector -->
+<div class="flex justify-between items-center mb-10">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined text-on-surface" data-icon="chevron_left">chevron_left</span>
+</button>
+<div class="text-center">
+<p class="text-[0.6875rem] uppercase tracking-[0.1em] text-secondary font-medium mb-1">Fiscal Period</p>
+<h2 class="text-xl font-bold tracking-tight">October 2023</h2>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined text-on-surface" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Pie Chart & Hero Stats -->
+<section class="flex flex-col items-center mb-12">
+<div class="relative w-72 h-72 flex items-center justify-center">
+<!-- SVG Pie Chart -->
+<svg class="w-full h-full -rotate-90 drop-shadow-sm" viewbox="0 0 100 100">
+<!-- Housing (45%): 0 to 162 degrees -->
+<path d="M 50 50 L 50 0 A 50 50 0 0 1 97.55 34.55 Z" fill="black" stroke="white" stroke-width="0.5"></path>
+<!-- Food (25%): 162 to 252 degrees -->
+<path d="M 50 50 L 97.55 34.55 A 50 50 0 0 1 50 100 Z" fill="#5e5e5e" stroke="white" stroke-width="0.5"></path>
+<!-- Transport (15%): 252 to 306 degrees -->
+<path d="M 50 50 L 50 100 A 50 50 0 0 1 9.55 79.39 Z" fill="#acabab" stroke="white" stroke-width="0.5"></path>
+<!-- Wellness (15%): 306 to 360 degrees -->
+<path d="M 50 50 L 9.55 79.39 A 50 50 0 0 1 50 0 Z" fill="#e2e2e4" stroke="white" stroke-width="0.5"></path>
+<!-- Labels Inside Segments (simplified positions) -->
+<!-- Housing 45% -->
+<text fill="white" font-family="Inter" font-size="5" font-weight="900" transform="rotate(90 65 25)" x="65" y="25">45%</text>
+<!-- Food 25% -->
+<text fill="white" font-family="Inter" font-size="5" font-weight="900" transform="rotate(90 75 70)" x="75" y="70">25%</text>
+<!-- Transport 15% -->
+<text fill="black" font-family="Inter" font-size="4.5" font-weight="900" transform="rotate(90 25 85)" x="25" y="85">15%</text>
+<!-- Wellness 15% -->
+<text fill="black" font-family="Inter" font-size="4.5" font-weight="900" transform="rotate(90 20 35)" x="20" y="35">15%</text>
+</svg>
+<div class="mt-8 text-center absolute -bottom-16">
+<p class="text-[0.6875rem] uppercase tracking-[0.05em] text-secondary">Total Spend</p>
+<p class="text-3xl font-black tracking-tighter">$4,280</p>
+</div>
+</div>
+</section>
+<!-- Category Insights Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12 mt-16">
+<!-- Category Item: Housing -->
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-between h-32 hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[0.6875rem] font-bold uppercase tracking-wider text-secondary">Housing</span>
+<span class="text-[0.6875rem] font-black text-primary bg-surface-container-high px-2 py-0.5 rounded-full">45%</span>
+</div>
+<div class="flex justify-between items-end">
+<p class="text-2xl font-bold tracking-tight">$1,926</p>
+<span class="material-symbols-outlined text-primary" data-icon="home">home</span>
+</div>
+</div>
+<!-- Category Item: Food -->
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-between h-32 hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[0.6875rem] font-bold uppercase tracking-wider text-secondary">Food &amp; Drink</span>
+<span class="text-[0.6875rem] font-black text-primary bg-surface-container-high px-2 py-0.5 rounded-full">25%</span>
+</div>
+<div class="flex justify-between items-end">
+<p class="text-2xl font-bold tracking-tight">$1,070</p>
+<span class="material-symbols-outlined text-primary" data-icon="restaurant">restaurant</span>
+</div>
+</div>
+<!-- Category Item: Transport -->
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-between h-32 hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[0.6875rem] font-bold uppercase tracking-wider text-secondary">Transport</span>
+<span class="text-[0.6875rem] font-black text-primary bg-surface-container-high px-2 py-0.5 rounded-full">15%</span>
+</div>
+<div class="flex justify-between items-end">
+<p class="text-2xl font-bold tracking-tight">$642</p>
+<span class="material-symbols-outlined text-primary" data-icon="directions_car">directions_car</span>
+</div>
+</div>
+<!-- Category Item: Wellness -->
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-between h-32 hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[0.6875rem] font-bold uppercase tracking-wider text-secondary">Wellness</span>
+<span class="text-[0.6875rem] font-black text-primary bg-surface-container-high px-2 py-0.5 rounded-full">15%</span>
+</div>
+<div class="flex justify-between items-end">
+<p class="text-2xl font-bold tracking-tight">$642</p>
+<span class="material-symbols-outlined text-primary" data-icon="exercise">exercise</span>
+</div>
+</div>
+</div>
+<!-- Monthly Projection Card -->
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-3 pb-8 bg-white/70 backdrop-blur-[20px] z-50 border-t border-zinc-100/10 shadow-[0_-8px_20px_rgba(0,0,0,0.03)]">
+<a class="flex flex-col items-center justify-center text-zinc-400 hover:text-black transition-all active:scale-90 tap-highlight-none" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home_precision_mini">home_mini</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-black bg-zinc-100/50 rounded-xl px-3 py-1 transition-all active:scale-90 tap-highlight-none" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="query_stats" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="font-['Inter'] text-[10px] font-bold tracking-[0.05em] uppercase">Analytics</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-400 hover:text-black transition-all active:scale-90 tap-highlight-none" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase">Assistant</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-400 hover:text-black transition-all active:scale-90 tap-highlight-none" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person_outline">person_outline</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase">Profile</span>
+</a>
+</nav>
+</body></html>

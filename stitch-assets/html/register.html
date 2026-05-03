@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Join the Atelier | Mono Ledger</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#d9dadc",
+                    "on-tertiary-fixed-variant": "#e3e2e2",
+                    "on-error-container": "#410002",
+                    "inverse-on-surface": "#f0f0f2",
+                    "background": "#f9f9fb",
+                    "secondary": "#5f5e5e",
+                    "primary-container": "#3b3b3b",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "surface-container-high": "#e8e8ea",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-primary-fixed-variant": "#e2e2e2",
+                    "on-primary": "#e2e2e2",
+                    "on-surface": "#1a1c1d",
+                    "on-tertiary-fixed": "#ffffff",
+                    "on-tertiary": "#e3e2e2",
+                    "tertiary-fixed": "#5e5e5e",
+                    "on-primary-fixed": "#ffffff",
+                    "surface-container": "#eeeef0",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#e2e2e4",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#ffffff",
+                    "tertiary-fixed-dim": "#464747",
+                    "secondary-fixed-dim": "#acabab",
+                    "on-secondary-fixed-variant": "#3b3b3b",
+                    "on-background": "#1a1c1d",
+                    "surface": "#f9f9fb",
+                    "on-surface-variant": "#474747",
+                    "tertiary-container": "#747474",
+                    "outline": "#777777",
+                    "tertiary": "#3b3b3c",
+                    "inverse-surface": "#2f3132",
+                    "surface-tint": "#5e5e5e",
+                    "primary-fixed-dim": "#474747",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#c6c6c6",
+                    "secondary-fixed": "#c8c6c6",
+                    "error-container": "#ffdad6",
+                    "surface-bright": "#f9f9fb",
+                    "primary-fixed": "#5e5e5e",
+                    "surface-container-low": "#f3f3f5",
+                    "on-secondary-container": "#1b1c1c",
+                    "primary": "#000000",
+                    "on-tertiary-container": "#ffffff",
+                    "outline-variant": "#c6c6c6",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#d6d4d3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>body {
+    font-family: "Inter", sans-serif
+    }
+.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+.bg-noise {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBsdDho1ZklFakMDa93wYlpDmwL3jO72dMeVyGi1e40iJucfqkz3Wl3EeOnRs4obs5AwQZycz-MT-F2WS9XsH2_P5T9eb3NA88OAsXKyb7JbCI-ehoYgfNhrvQz6fBCdtXSgpR66wTGvvdn1XTeGD_c8tPr0mINOpVntP_BpOUr5lW6rUsQxbMef0q9He9C5sDKtcWYe-bGEVPhf39m6OVT44j-trT-F5ynRwPfp0t7nUbm7gzSrFV5_URHtr2cCxpC2Q4WqlxjPQ)
+    }</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col items-center">
+<!-- TopAppBar Fragment (Transactional: No Nav, simplified for Focus) -->
+<header class="fixed top-0 w-full z-50 bg-neutral-50/85 dark:bg-neutral-900/85 backdrop-blur-xl flex justify-between items-center px-6 h-16">
+<div class="flex items-center gap-2">
+<span class="text-lg font-black tracking-tighter text-black dark:text-white">ATELIER</span>
+</div>
+<div class="flex items-center">
+<span class="font-sans uppercase tracking-[0.2em] text-[0.6875rem] font-medium text-neutral-400">Step 01 / 01</span>
+</div>
+</header>
+<main class="flex-grow w-full max-w-md px-6 pt-32 pb-20 flex flex-col">
+<!-- Hero Section -->
+<div class="mb-12">
+<h1 class="text-[3.5rem] leading-[1.1] font-extrabold tracking-tighter text-on-surface mb-4">Join the Atelier</h1>
+<p class="text-secondary text-[0.875rem] leading-relaxed max-w-[280px]">Begin your journey towards financial precision.</p>
+</div>
+<!-- Form Section -->
+<form class="space-y-10">
+<!-- Full Name -->
+<div class="group">
+<label class="block font-sans uppercase tracking-[0.2em] text-[0.6875rem] font-medium text-on-surface-variant mb-2">Full Name</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b-2 border-primary focus:ring-0 focus:border-primary placeholder:text-surface-container-high text-lg font-medium transition-colors p-0 pb-2" placeholder="ALEXANDER VOGUE" type="text"/>
+</div>
+<!-- Email Address -->
+<div class="group">
+<label class="block font-sans uppercase tracking-[0.2em] text-[0.6875rem] font-medium text-on-surface-variant mb-2">Email Address</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b-2 border-outline-variant focus:ring-0 focus:border-primary placeholder:text-surface-container-high text-lg font-medium transition-colors p-0 pb-2" placeholder="ARCHITECT@MONO.CO" type="email"/>
+</div>
+<!-- Password -->
+<div class="group relative">
+<label class="block font-sans uppercase tracking-[0.2em] text-[0.6875rem] font-medium text-on-surface-variant mb-2">Password</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b-2 border-outline-variant focus:ring-0 focus:border-primary placeholder:text-surface-container-high text-lg font-medium transition-colors p-0 pb-2" placeholder="••••••••" type="password"/>
+<button class="absolute right-0 bottom-2 text-on-surface-variant" type="button">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+</div>
+<!-- Primary Action -->
+<div class="pt-4">
+<button class="w-full h-14 bg-primary text-on-primary rounded-lg font-bold text-[0.875rem] uppercase tracking-widest hover:opacity-90 active:scale-95 transition-all shadow-xl shadow-black/5" type="submit">
+                    Create Account
+                </button>
+</div>
+</form>
+<!-- Divider -->
+<div class="relative my-12 flex items-center justify-center">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant opacity-20"></div>
+</div>
+<span class="relative bg-surface px-4 font-sans uppercase tracking-[0.2em] text-[0.6rem] font-bold text-outline">or connect via</span>
+</div>
+<!-- Alternative Auth -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center h-14 bg-surface-container-high rounded-lg hover:bg-surface-dim transition-colors active:scale-95">
+<div class="flex items-center gap-2">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M12.48 10.92v3.28h7.84c-.24 1.84-.91 3.22-1.91 4.22c-1.23 1.23-3.15 2.57-7.85 2.57c-7.31 0-13.07-5.93-13.07-13.24s5.76-13.24 13.07-13.24c4.01 0 7.07 1.58 9.3 3.66l2.32-2.32C19.21 3.01 16.24 1 12.48 1c-6.62 0-12 5.38-12 12s5.38 12 12 12c3.58 0 6.28-1.18 8.4-3.4c2.18-2.18 2.87-5.26 2.87-7.7c0-.52-.04-1.01-.12-1.46z" fill="currentColor"></path>
+</svg>
+<span class="font-bold text-[0.75rem] uppercase tracking-wider">Google</span>
+</div>
+</button>
+<button class="flex items-center justify-center h-14 bg-surface-container-high rounded-lg hover:bg-surface-dim transition-colors active:scale-95">
+<div class="flex items-center gap-2">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M17.05 20.28c-.96.95-2.22 1.72-3.71 1.72c-1.47 0-2.25-.86-3.74-.86c-1.5 0-2.39.84-3.71.84c-1.5 0-2.98-1.03-4.14-2.82c-2.33-3.64-1.78-8.99.71-11.02c1.24-1.01 2.61-1.57 3.94-1.57c1.47 0 2.37.86 3.73.86c1.36 0 2.05-.86 3.71-.86c1.11 0 2.38.4 3.4 1.23c-2.45 1.4-2.03 5.09.43 6.13c-.56 1.39-1.28 2.76-1.92 3.49M13.2 2.34c0 1.63-1.34 3.42-3.13 3.42c-.14 0-.28-.01-.39-.03c-.02-1.76 1.41-3.52 3.01-3.52c.18 0 .34.01.51.03c.01.03.01.07.01.1z" fill="currentColor"></path>
+</svg>
+<span class="font-bold text-[0.75rem] uppercase tracking-wider">Apple</span>
+</div>
+</button>
+</div>
+<!-- Footer Link -->
+<div class="mt-auto pt-12 text-center">
+<p class="text-on-surface-variant text-[0.875rem]">
+                Already an artisan? 
+                <a class="text-primary font-bold underline underline-offset-4 decoration-outline-variant hover:decoration-primary transition-all ml-1" href="#">Sign In</a>
+</p>
+</div>
+</main>
+<!-- Decorative Corner Element (Design System: Intentional Asymmetry) -->
+<div class="fixed bottom-[-10%] right-[-5%] w-64 h-64 bg-surface-container-high rounded-full opacity-30 blur-[80px] pointer-events-none"></div>
+<!-- Legal Anchor -->
+<footer class="w-full max-w-md px-6 pb-8 text-center">
+<p class="font-sans uppercase tracking-[0.2em] text-[0.6rem] font-medium text-neutral-400 leading-loose">
+            By creating an account, you agree to our <br/>
+<span class="text-on-surface border-b border-outline-variant">Terms of Service</span> &amp; <span class="text-on-surface border-b border-outline-variant">Privacy Architecture</span>
+</p>
+</footer>
+<!-- Image Context (Abstract Background Texture) -->
+<div class="fixed inset-0 -z-10 bg-noise opacity-[0.03] pointer-events-none"></div>
+<div class="fixed inset-0 -z-20 bg-surface"></div>
+</body></html>

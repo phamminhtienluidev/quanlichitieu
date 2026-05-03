@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#c6c6c6",
+                    "secondary-fixed": "#c8c6c6",
+                    "surface-container-low": "#f3f3f5",
+                    "on-tertiary-fixed-variant": "#e3e2e2",
+                    "surface-variant": "#e2e2e4",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#1b1c1c",
+                    "outline": "#777777",
+                    "surface-container-high": "#e8e8ea",
+                    "tertiary": "#3b3b3c",
+                    "on-primary-fixed-variant": "#e2e2e2",
+                    "on-error-container": "#410002",
+                    "secondary": "#5f5e5e",
+                    "on-primary-fixed": "#ffffff",
+                    "on-surface": "#1a1c1d",
+                    "surface-tint": "#5e5e5e",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-background": "#1a1c1d",
+                    "primary-fixed-dim": "#474747",
+                    "inverse-on-surface": "#f0f0f2",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "surface-container": "#eeeef0",
+                    "secondary-fixed-dim": "#acabab",
+                    "on-primary": "#e2e2e2",
+                    "on-tertiary": "#e3e2e2",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#d9dadc",
+                    "surface": "#f9f9fb",
+                    "primary-container": "#3b3b3b",
+                    "on-primary-container": "#ffffff",
+                    "tertiary-container": "#747474",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#ffffff",
+                    "surface-bright": "#f9f9fb",
+                    "inverse-surface": "#2f3132",
+                    "tertiary-fixed-dim": "#464747",
+                    "background": "#f9f9fb",
+                    "primary": "#000000",
+                    "outline-variant": "#c6c6c6",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#d6d4d3",
+                    "primary-fixed": "#5e5e5e",
+                    "on-tertiary-fixed": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#3b3b3b",
+                    "on-surface-variant": "#474747",
+                    "tertiary-fixed": "#5e5e5e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-[884px]" data-mode="connect" data-stitch-vh="min-h-[884px]===min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-[#f9f9fb]/85 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0_12px_24px_rgba(26,28,29,0.04)] no-border tonal-shift-bg-surface-container-low">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<h1 class="text-xl font-black tracking-tighter text-[#000000] uppercase">Atelier</h1>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high scale-95 transition-transform duration-200 cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="minimalist studio portrait of a woman with clean lighting and neutral grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_IDXy4eXlGFNx9d_hMZ-aHJ9hOifdZOrpvB8-F7Ut7kRvi_XmJlaZ2vFZDoK-RCmycKiyvapmISM4ZvIsMT9-mwI_2-PCVMu2akTDL-I8F61a0R-meZaw7KTy3y0qXMZOEKW6bLDOyV_9N1HBIgh7qhI-l4pQlsQdpAVT1SBICExWlsOnV9bpUx6nTEK-j3lQd-AS38SGsBcFJP5p6qpvr5Yd_7-834P2gsBrMV-UIRTJ2uYHoEVabTyfGmxCR6ebp9msP8OpvQ"/>
+</div>
+</div>
+</header>
+<main class="px-6 pt-8 pb-32 max-w-2xl mx-auto space-y-12">
+<!-- Hero Balance Section -->
+<section class="space-y-2">
+<span class="text-[0.6875rem] font-medium tracking-[0.05em] uppercase text-secondary">Total Net Worth</span>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-light text-on-surface">$</span>
+<h2 class="text-[3.5rem] font-black leading-none tracking-tight text-primary">142,850.42</h2>
+</div>
+<div class="flex items-center gap-2 pt-2">
+<span class="material-symbols-outlined text-sm text-primary">trending_up</span>
+<span class="text-[0.6875rem] font-bold uppercase tracking-wider text-primary">+2.4% this month</span>
+</div>
+</section>
+<!-- Bento Grid Insights (Summary) -->
+<section class="grid grid-cols-2 gap-4">
+<!-- Mini Card 1 -->
+<div class="bg-surface-container-low rounded-xl p-5 space-y-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<div>
+<span class="block text-[0.6875rem] font-medium uppercase text-secondary tracking-widest">Savings</span>
+<p class="text-lg font-bold text-on-surface">$12,400</p>
+</div>
+</div>
+<!-- Mini Card 2 -->
+<div class="bg-surface-container-low rounded-xl p-5 space-y-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+<div>
+<span class="block text-[0.6875rem] font-medium uppercase text-secondary tracking-widest">Invested</span>
+<p class="text-lg font-bold text-on-surface">$84,120</p>
+</div>
+</div>
+</section>
+<!-- Expenditure Categories Section (Vertical List Layout) -->
+<section class="space-y-6">
+<div class="flex justify-between items-center">
+<h3 class="text-sm font-bold uppercase tracking-widest text-on-surface">Danh mục chi tiêu</h3>
+<button class="text-[0.6875rem] font-bold uppercase text-secondary hover:text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">add_circle</span>
+                Thêm danh mục
+            </button>
+</div>
+<div class="space-y-3">
+<!-- Category Item 1: Mua sắm -->
+<div class="bg-surface-container-low rounded-xl p-5 group hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">shopping_bag</span>
+</div>
+<div>
+<span class="block text-[0.6875rem] font-medium uppercase text-secondary tracking-widest">Mua sắm</span>
+<p class="text-lg font-black text-on-surface">$2,450.00</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+<span class="flex-shrink-0 px-3 py-1 rounded-full bg-surface-container-highest text-[0.625rem] font-bold text-secondary border border-outline-variant/30">$450.00</span>
+<span class="flex-shrink-0 px-3 py-1 rounded-full bg-surface-container-highest text-[0.625rem] font-bold text-secondary border border-outline-variant/30">$1,200.00</span>
+<span class="flex-shrink-0 px-3 py-1 rounded-full bg-surface-container-highest text-[0.625rem] font-bold text-secondary border border-outline-variant/30">$800.00</span>
+</div>
+</div>
+<!-- Category Item 2: Ăn uống -->
+<div class="bg-surface-container-low rounded-xl p-5 group hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">restaurant</span>
+</div>
+<div>
+<span class="block text-[0.6875rem] font-medium uppercase text-secondary tracking-widest">Ăn uống</span>
+<p class="text-lg font-black text-on-surface">$1,120.50</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+<span class="flex-shrink-0 px-3 py-1 rounded-full bg-surface-container-highest text-[0.625rem] font-bold text-secondary border border-outline-variant/30">$25.50</span>
+<span class="flex-shrink-0 px-3 py-1 rounded-full bg-surface-container-highest text-[0.625rem] font-bold text-secondary border border-outline-variant/30">$140.00</span>
+<span class="flex-shrink-0 px-3 py-1 rounded-full bg-surface-container-highest text-[0.625rem] font-bold text-secondary border border-outline-variant/30">$45.00</span>
+<span class="flex-shrink-0 px-3 py-1 rounded-full bg-surface-container-highest text-[0.625rem] font-bold text-secondary border border-outline-variant/30">$910.00</span>
+</div>
+</div>
+<!-- Category Item 3: Xăng xe -->
+<div class="bg-surface-container-low rounded-xl p-5 group hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">local_gas_station</span>
+</div>
+<div>
+<span class="block text-[0.6875rem] font-medium uppercase text-secondary tracking-widest">Xăng xe</span>
+<p class="text-lg font-black text-on-surface">$450.00</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+<span class="flex-shrink-0 px-3 py-1 rounded-full bg-surface-container-highest text-[0.625rem] font-bold text-secondary border border-outline-variant/30">$450.00</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full bg-white/70 backdrop-blur-[20px] z-50 border-t border-zinc-100/10 flex justify-around items-center px-4 pt-3 pb-8 shadow-[0_-8px_20px_rgba(0,0,0,0.03)]">
+<!-- Home Active -->
+<a class="flex flex-col items-center justify-center text-black bg-zinc-100/50 rounded-xl px-3 py-1 tap-highlight-none active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home_mini</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Tổng quan</span>
+</a>
+<!-- Analytics -->
+<a class="flex flex-col items-center justify-center text-zinc-400 hover:text-black tap-highlight-none active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Phân tích</span>
+</a>
+<!-- Assistant -->
+<a class="flex flex-col items-center justify-center text-zinc-400 hover:text-black tap-highlight-none active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Trợ lý</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-zinc-400 hover:text-black tap-highlight-none active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">person_outline</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Cá nhân</span>
+</a>
+</nav>
+<!-- FAB -->
+<div class="fixed bottom-24 right-6 z-40">
+<button class="h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-transform px-6"><span class="text-xs font-bold uppercase tracking-widest px-2">Thêm danh mục</span></button>
+</div>
+</body></html>

@@ -1,0 +1,230 @@
+.container {
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  height: 4rem;
+  position: sticky;
+  top: 0;
+  background-color: var(--color-background);
+  z-index: 50;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.closeBtn:active {
+  transform: scale(0.9);
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+.spacer {
+  width: 1.5rem;
+}
+
+.main {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: 3.5rem;
+}
+
+.subtitle {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-outline);
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+  margin-bottom: 1rem;
+}
+
+.headerDesc {
+  font-size: 0.875rem;
+  color: var(--color-outline);
+  line-height: 1.6;
+}
+
+/* Social Buttons */
+.socialSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.socialLargeBtn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-container-lowest);
+  border: 1px solid rgba(198, 198, 198, 0.15);
+  transition: all var(--transition-fast);
+  width: 100%;
+  cursor: pointer;
+}
+
+.socialLargeBtn:hover {
+  background-color: var(--color-surface-container-high);
+  border-color: rgba(198, 198, 198, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.socialLargeBtn:active {
+  transform: scale(0.97) translateY(0);
+}
+
+.socialLargeIcon {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialLargeIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.socialLargeText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.socialLargeLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-outline);
+}
+
+.socialLargeName {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Terms */
+.termsText {
+  margin-top: auto;
+  padding-top: 3rem;
+  font-size: 11px;
+  color: var(--color-outline);
+  line-height: 1.7;
+  text-align: center;
+}
+
+.termsLink {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* Spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* Error Box */
+.errorBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-xl);
+  background-color: rgba(220, 38, 38, 0.06);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  color: #dc2626;
+}
+
+.errorBox p {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* Disabled state */
+.socialLargeBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Background decorations */
+.bgArtifactRight {
+  position: fixed;
+  top: 50%;
+  right: -4rem;
+  width: 8rem;
+  height: 16rem;
+  background-color: var(--color-surface-container-high);
+  rotate: 12deg;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.bgArtifactLeft {
+  position: fixed;
+  bottom: 0;
+  left: -4rem;
+  width: 12rem;
+  height: 12rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.3;
+  z-index: -1;
+}
