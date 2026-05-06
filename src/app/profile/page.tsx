@@ -318,7 +318,6 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <SettingsButton icon="palette" label="Giao diện" />
 
           <a href={supportHref} className={`${styles.settingsItemStatic} ${styles.settingsMailLink}`}>
             <div className={styles.settingsLeft}>

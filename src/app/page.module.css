@@ -43,7 +43,7 @@
 }
 
 .amount {
-  font-size: 3.5rem;
+  font-size: 2.75rem;
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.05em;
@@ -230,6 +230,7 @@
   font-size: 0.875rem;
 }
 
+
 .transactionScroll {
   display: flex;
   gap: 0.5rem;
@@ -250,6 +251,17 @@
   font-weight: 700;
   color: var(--color-secondary);
   border: 1px solid rgba(198, 198, 198, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.txTagDeleting {
+  background-color: var(--color-error, #cf6679);
+  color: white;
+  border-color: transparent;
 }
 
 /* FAB */

@@ -11,6 +11,7 @@ import {
   setDoc,
   getDoc,
   getDocs,
+  getDocsFromCache,
   updateDoc,
   deleteDoc,
   query,
@@ -75,6 +76,17 @@ export async function getTransactions(userId: string): Promise<Transaction[]> {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Transaction));
 }
 
+/** Lấy tất cả giao dịch từ bộ nhớ đệm (offline) */
+export async function getTransactionsFromCache(userId: string): Promise<Transaction[]> {
+  const q = query(
+    collection(db, "transactions"),
+    where("userId", "==", userId),
+    orderBy("date", "desc")
+  );
+  const snap = await getDocsFromCache(q);
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Transaction));
+}
+
 /** Thêm giao dịch mới */
 export async function addTransaction(
   userId: string,
@@ -114,6 +126,17 @@ export async function getCategories(userId: string): Promise<Category[]> {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Category));
 }
 
+/** Lấy tất cả danh mục từ bộ nhớ đệm */
+export async function getCategoriesFromCache(userId: string): Promise<Category[]> {
+  const q = query(
+    collection(db, "categories"),
+    where("userId", "==", userId),
+    orderBy("createdAt", "asc")
+  );
+  const snap = await getDocsFromCache(q);
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Category));
+}
+
 /** Thêm danh mục mới */
 export async function addCategory(
   userId: string,
@@ -125,6 +148,11 @@ export async function addCategory(
     createdAt: serverTimestamp(),
   });
   return ref.id;
+}
+
+/** Xóa danh mục */
+export async function deleteCategory(catId: string): Promise<void> {
+  await deleteDoc(doc(db, "categories", catId));
 }
 
 /** Seed danh mục mặc định nếu user chưa có danh mục nào */
@@ -165,6 +193,16 @@ export async function getAllBudgets(userId: string): Promise<Budget[]> {
     where("userId", "==", userId)
   );
   const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Budget));
+}
+
+/** Lấy tất cả ngân sách từ bộ nhớ đệm */
+export async function getAllBudgetsFromCache(userId: string): Promise<Budget[]> {
+  const q = query(
+    collection(db, "budgets"),
+    where("userId", "==", userId)
+  );
+  const snap = await getDocsFromCache(q);
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Budget));
 }
 

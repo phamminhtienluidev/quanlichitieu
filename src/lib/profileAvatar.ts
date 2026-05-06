@@ -37,6 +37,13 @@ export async function uploadProfileAvatarBlob(
   imageBlob: Blob
 ): Promise<string> {
   const objectRef = ref(storage, `avatars/${userId}/${Date.now()}.jpg`);
-  await uploadBytes(objectRef, imageBlob, { contentType: "image/jpeg" });
-  return getDownloadURL(objectRef);
+  
+  // Thêm timeout 10 giây để tránh trường hợp treo do CORS hoặc kết nối
+  const uploadPromise = uploadBytes(objectRef, imageBlob, { contentType: "image/jpeg" }).then(() => getDownloadURL(objectRef));
+  
+  const timeoutPromise = new Promise<string>((_, reject) => {
+    setTimeout(() => reject(new Error("Upload timeout (có thể do lỗi cấu hình CORS trên Firebase Storage).")), 5000);
+  });
+  
+  return Promise.race([uploadPromise, timeoutPromise]);
 }

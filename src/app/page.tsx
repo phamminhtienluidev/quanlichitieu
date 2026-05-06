@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Header from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import styles from "./page.module.css";
@@ -12,10 +12,11 @@ import { getVndAmountSuggestions } from "@/lib/vndAmountSuggestions";
 export default function DashboardPage() {
   const { isAuthenticated, isLoading } = useAuth();
   const { formatMoney } = useUserPreferences();
-  const { categories, addCategory, addTransaction, getNetWorthAsOfDate, getTransactionsByDate, isReady } = useFinance();
+  const { categories, addCategory, deleteCategory, addTransaction, deleteTransaction, getTransactionsByMonth, getTransactionsByDate, isReady } = useFinance();
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [newCatName, setNewCatName] = useState("");
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
 
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
@@ -41,6 +42,12 @@ export default function DashboardPage() {
     setTransactionType(cat?.name === "Lương" ? "income" : "expense");
     setTransactionAmount("");
     setShowTransactionModal(true);
+  };
+  
+  const handleDeleteCategory = (categoryId: string, categoryName: string) => {
+    if (confirm(`Bạn có chắc chắn muốn xóa danh mục "${categoryName}"? Tất cả giao dịch trong danh mục này cũng sẽ bị xóa.`)) {
+      deleteCategory(categoryId);
+    }
   };
 
   const handleSaveTransaction = () => {
@@ -73,7 +80,14 @@ export default function DashboardPage() {
     else totalExpense += t.amount;
   });
 
-  const netWorth = getNetWorthAsOfDate(todayStr);
+  // Calculate Month's Stats
+  const today = new Date();
+  const currentMonthTx = getTransactionsByMonth(today.getFullYear(), today.getMonth());
+  let monthNetWorth = 0;
+  currentMonthTx.forEach(t => {
+    if (t.type === "income") monthNetWorth += t.amount;
+    else monthNetWorth -= t.amount;
+  });
 
   return (
     <>
@@ -84,13 +98,9 @@ export default function DashboardPage() {
           <span className={styles.dateLabel}>
             {new Date().toLocaleString('vi-VN', { day: 'numeric', month: 'long', year: 'numeric' })}
           </span>
-          <span className={styles.balanceLabel}>Tổng tài sản</span>
+          <span className={styles.balanceLabel}>Tài sản còn lại của tháng này</span>
           <div className={styles.balanceValue}>
-            <h2 className={styles.amount}>{formatMoney(netWorth)}</h2>
-          </div>
-          <div className={styles.trend}>
-            <span className="material-symbols-outlined">trending_up</span>
-            <span className={styles.trendText}>Cập nhật hôm nay</span>
+            <h2 className={styles.amount}>{formatMoney(monthNetWorth)}</h2>
           </div>
         </section>
 
@@ -116,10 +126,20 @@ export default function DashboardPage() {
         <section className={styles.categorySection}>
           <div className={styles.sectionHeader}>
             <h3 className={styles.sectionTitle}>Danh mục thu chi</h3>
-            <button className={styles.addBtn} onClick={() => setShowAddModal(true)}>
-              <span className="material-symbols-outlined">add_circle</span>
-              Thêm danh mục
-            </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', alignItems: 'flex-end' }}>
+              <button className={styles.addBtn} onClick={() => setShowAddModal(true)}>
+                <span className="material-symbols-outlined">add_circle</span>
+                Thêm danh mục
+              </button>
+              <button 
+                className={styles.addBtn} 
+                style={{ color: isDeleteMode ? 'var(--color-error, #cf6679)' : 'var(--color-secondary)' }}
+                onClick={() => setIsDeleteMode(!isDeleteMode)}
+              >
+                <span className="material-symbols-outlined">{isDeleteMode ? 'cancel' : 'remove_circle'}</span>
+                {isDeleteMode ? 'Hủy xóa' : 'Xóa danh mục'}
+              </button>
+            </div>
           </div>
 
           <div className={styles.categoryList}>
@@ -133,6 +153,9 @@ export default function DashboardPage() {
                   transactions={catTx}
                   formatMoney={formatMoney}
                   onAdd={() => handleQuickAdd(cat.id)}
+                  onDelete={() => handleDeleteCategory(cat.id, cat.name)}
+                  isDeleteMode={isDeleteMode}
+                  onDeleteTx={deleteTransaction}
                 />
               );
             })}
@@ -219,13 +242,32 @@ function LoadingScreen() {
   );
 }
 
-function CategoryItem({ name, icon, transactions, formatMoney, onAdd }: {
+function CategoryItem({ name, icon, transactions, formatMoney, onAdd, onDelete, isDeleteMode, onDeleteTx }: {
   name: string;
   icon: string;
   transactions: Array<{ id: string; amount: number; type: string }>;
   formatMoney: (vnd: number) => string;
   onAdd: () => void;
+  onDelete: () => void;
+  isDeleteMode: boolean;
+  onDeleteTx: (txId: string) => void;
 }) {
+  const [deletingTxId, setDeletingTxId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!deletingTxId) return;
+
+    const handleClickOutside = () => {
+      setDeletingTxId(null);
+    };
+
+    setTimeout(() => {
+      document.addEventListener("click", handleClickOutside);
+    }, 0);
+
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [deletingTxId]);
+
   let total = 0;
   transactions.forEach(t => {
     if (t.type === "income") total += t.amount;
@@ -249,16 +291,48 @@ function CategoryItem({ name, icon, transactions, formatMoney, onAdd }: {
             {displayAmount && <p className={styles.itemAmount}>{displayAmount}</p>}
           </div>
         </div>
-        <button className={styles.quickAdd} onClick={onAdd}>
-          <span className="material-symbols-outlined">add</span>
-        </button>
+        <div className={styles.itemRight} style={{ display: 'flex', alignItems: 'center' }}>
+          <button 
+            className={styles.quickAdd} 
+            style={{ backgroundColor: isDeleteMode ? 'var(--color-error, #cf6679)' : 'var(--color-primary)' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isDeleteMode) {
+                onDelete();
+              } else {
+                onAdd();
+              }
+            }}
+          >
+            <span className="material-symbols-outlined">{isDeleteMode ? 'remove' : 'add'}</span>
+          </button>
+        </div>
       </div>
       {transactions.length > 0 && (
         <div className={styles.transactionScroll}>
           {transactions.map((tx) => (
-            <span key={tx.id} className={styles.txTag}>
-              {tx.type === "income" ? '+' : '-'}{formatMoney(tx.amount)}
-            </span>
+            <button 
+              key={tx.id} 
+              className={`${styles.txTag} ${deletingTxId === tx.id ? styles.txTagDeleting : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (deletingTxId === tx.id) {
+                  onDeleteTx(tx.id);
+                  setDeletingTxId(null);
+                } else {
+                  setDeletingTxId(tx.id);
+                }
+              }}
+            >
+              {deletingTxId === tx.id ? (
+                <>
+                  <span className="material-symbols-outlined" style={{ fontSize: '0.875rem' }}>remove</span>
+                  Xóa
+                </>
+              ) : (
+                <>{tx.type === "income" ? '+' : '-'}{formatMoney(tx.amount)}</>
+              )}
+            </button>
           ))}
         </div>
       )}

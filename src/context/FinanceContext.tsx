@@ -11,10 +11,14 @@ import {
   updateTransaction as fsUpdateTransaction,
   getCategories,
   addCategory as fsAddCategory,
+  deleteCategory as fsDeleteCategory,
   seedDefaultCategories,
   getAllBudgets,
   setBudget as fsSetBudget,
   deleteBudget as fsDeleteBudget,
+  getTransactionsFromCache,
+  getCategoriesFromCache,
+  getAllBudgetsFromCache,
 } from "@/lib/firestoreService";
 import type {
   Transaction,
@@ -33,6 +37,7 @@ interface FinanceContextType {
   deleteTransaction: (txId: string) => Promise<void>;
   updateTransaction: (txId: string, data: Partial<Omit<Transaction, "id" | "userId" | "createdAt">>) => Promise<void>;
   addCategory: (cat: Omit<Category, "id" | "userId" | "createdAt">) => Promise<void>;
+  deleteCategory: (catId: string) => Promise<void>;
   setBudget: (budget: Omit<Budget, "id" | "userId" | "createdAt">) => Promise<void>;
   deleteBudget: (categoryName: string, year: number, month: number) => Promise<void>;
   getTransactionsByDate: (dateStr: string) => Transaction[];
@@ -55,7 +60,26 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
 
   // ── Load all data from Firestore ──────────────────────────────────────────
   const loadAll = useCallback(async (uid: string) => {
-    setIsReady(false);
+    // Attempt cache first for instant loading
+    try {
+      const [txsCache, catsCache, budsCache] = await Promise.all([
+        getTransactionsFromCache(uid),
+        getCategoriesFromCache(uid),
+        getAllBudgetsFromCache(uid),
+      ]);
+      // If we have categories in cache, it's not a fresh install
+      if (catsCache.length > 0) {
+        setTransactions(txsCache);
+        setCategories(catsCache);
+        setBudgets(budsCache);
+        setIsReady(true);
+      } else {
+        setIsReady(false);
+      }
+    } catch (e) {
+      setIsReady(false);
+    }
+
     try {
       const [txs, cats, buds] = await Promise.all([
         getTransactions(uid),
@@ -152,6 +176,13 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     const newId = await fsAddCategory(user.uid, cat);
     setCategories((prev) => [...prev, { ...cat, id: newId, userId: user.uid }]);
   };
+  
+  const deleteCategory = async (catId: string) => {
+    await fsDeleteCategory(catId);
+    setCategories((prev) => prev.filter((c) => c.id !== catId));
+    // Also remove associated transactions locally to keep state clean
+    setTransactions((prev) => prev.filter((t) => t.categoryId !== catId));
+  };
 
   // ── Budgets ────────────────────────────────────────────────────────────────
   const setBudget = async (
@@ -212,6 +243,7 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
         deleteTransaction,
         updateTransaction,
         addCategory,
+        deleteCategory,
         setBudget,
         deleteBudget,
         getTransactionsByDate,
