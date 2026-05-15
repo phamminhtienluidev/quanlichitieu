@@ -29,11 +29,7 @@ export default function Header({
           <h1 className={styles.title}>{title}</h1>
         </div>
       </div>
-      <div className={styles.profileWrapper}>
-        <span className={`material-symbols-outlined ${styles.profileIcon}`} aria-hidden>
-          account_circle
-        </span>
-      </div>
+
     </header>
   );
 }

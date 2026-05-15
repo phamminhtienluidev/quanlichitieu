@@ -6,8 +6,8 @@ import { useAuth } from "@/context/AuthContext";
 import styles from "./page.module.css";
 
 export default function LoginPage() {
-  const { signInWithGoogle, signInWithFacebook } = useAuth();
-  const [loadingProvider, setLoadingProvider] = useState<"google" | "facebook" | null>(null);
+  const { signInWithGoogle } = useAuth();
+  const [loadingProvider, setLoadingProvider] = useState<"google" | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleGoogle = async () => {
@@ -25,20 +25,7 @@ export default function LoginPage() {
     }
   };
 
-  const handleFacebook = async () => {
-    setError(null);
-    setLoadingProvider("facebook");
-    try {
-      await signInWithFacebook();
-    } catch (err: unknown) {
-      const code = (err as { code?: string })?.code;
-      if (code !== "auth/popup-closed-by-user" && code !== "auth/cancelled-popup-request") {
-        setError("Đăng nhập Facebook thất bại. Vui lòng thử lại.");
-      }
-    } finally {
-      setLoadingProvider(null);
-    }
-  };
+
 
   const isLoading = loadingProvider !== null;
 
@@ -89,30 +76,7 @@ export default function LoginPage() {
             </span>
           </button>
 
-          {/* Facebook */}
-          <button
-            onClick={handleFacebook}
-            className={styles.socialLargeBtn}
-            disabled={isLoading}
-          >
-            <div className={styles.socialLargeIcon}>
-              {loadingProvider === "facebook" ? (
-                <div className={styles.spinner} />
-              ) : (
-                <svg viewBox="0 0 48 48" fill="none">
-                  <path d="M24 4C12.954 4 4 12.954 4 24c0 9.953 7.27 18.211 16.8 19.75V29.5h-5.05V24h5.05v-4.025c0-5.063 2.99-7.862 7.578-7.862 2.2 0 4.497.394 4.497.394V17.5h-2.533c-2.496 0-3.277 1.547-3.277 3.135V24h5.563l-.889 5.5H27.065v14.25C36.73 42.211 44 33.953 44 24c0-11.046-8.954-20-20-20z" fill="#1877F2"/>
-                  <path d="M30.739 29.5L31.628 24h-5.563v-3.365c0-1.588.781-3.135 3.277-3.135h2.533V12.507s-2.298-.394-4.497-.394c-4.588 0-7.578 2.799-7.578 7.862V24h-5.05v5.5h5.05v14.25A20.132 20.132 0 0024 44c1.362 0 2.698-.138 3.99-.397V29.5h-1.512z" fill="white"/>
-                </svg>
-              )}
-            </div>
-            <div className={styles.socialLargeText}>
-              <span className={styles.socialLargeLabel}>Tiếp tục với</span>
-              <span className={styles.socialLargeName}>Facebook</span>
-            </div>
-            <span className="material-symbols-outlined" style={{ marginLeft: "auto", opacity: 0.4, fontSize: "1rem" }}>
-              arrow_forward_ios
-            </span>
-          </button>
+
         </section>
 
         {/* Error message */}

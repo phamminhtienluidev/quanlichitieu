@@ -8,15 +8,14 @@ import {
   signOut,
   User,
 } from "firebase/auth";
-import { auth, googleProvider, facebookProvider } from "@/lib/firebase";
+import { auth, googleProvider } from "@/lib/firebase";
 
 interface AuthContextType {
   isAuthenticated: boolean;
   isFirstLaunch: boolean;
   user: User | null;
   signInWithGoogle: () => Promise<void>;
-  signInWithFacebook: () => Promise<void>;
-  /** @deprecated dùng signInWithGoogle hoặc signInWithFacebook */
+  /** @deprecated dùng signInWithGoogle */
   login: () => void;
   logout: () => Promise<void>;
   completeOnboarding: () => void;
@@ -56,12 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push("/");
   };
 
-  const signInWithFacebook = async () => {
-    const result = await signInWithPopup(auth, facebookProvider);
-    setUser(result.user);
-    setIsAuthenticated(true);
-    router.push("/");
-  };
+
 
   // Legacy shim — kept for backward compatibility
   const login = () => {
@@ -104,7 +98,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isFirstLaunch,
         user,
         signInWithGoogle,
-        signInWithFacebook,
         login,
         logout,
         completeOnboarding,

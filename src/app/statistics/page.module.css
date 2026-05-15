@@ -1,14 +1,44 @@
 .main {
   max-width: 48rem;
   margin: 0 auto;
-  padding: 6rem 1.5rem 12rem;
+  padding: 1rem 1.5rem 12rem;
+}
+
+.periodTabs {
+  display: flex;
+  background-color: var(--color-surface-container-low);
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.4s ease-out both;
+}
+
+.periodTab {
+  flex: 1;
+  text-align: center;
+  padding: 0.625rem 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.periodTabActive {
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .monthSelector {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1rem;
   animation: fadeInUp 0.4s ease-out both;
 }
 
@@ -55,8 +85,10 @@
 .statNetHero {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   animation: fadeInUp 0.4s ease-out 0.02s both;
 }
 
@@ -84,7 +116,7 @@
 }
 
 .statNetAmount {
-  font-size: 3.5rem;
+  font-size: 2.75rem;
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.05em;
@@ -110,6 +142,95 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-primary);
+}
+
+/* Trend Chart */
+.trendChartWrapper {
+  margin-bottom: 1.5rem;
+  background-color: var(--color-surface-container-lowest);
+  padding: 1.25rem 1rem;
+  border-radius: 0.75rem;
+  animation: fadeInUp 0.4s ease-out 0.04s both;
+}
+
+.trendChartTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.trendChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  height: 120px;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.trendChart::-webkit-scrollbar {
+  height: 4px;
+}
+.trendChart::-webkit-scrollbar-thumb {
+  background-color: var(--color-surface-container-high);
+  border-radius: 4px;
+}
+
+.trendBarContainer {
+  flex: 1;
+  min-width: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+
+.trendBar {
+  width: 100%;
+  max-width: 1.25rem;
+  background-color: var(--color-surface-container-high);
+  border-radius: 0.25rem 0.25rem 0 0;
+  transition: background-color 0.2s, height 0.5s ease-out;
+}
+
+.trendBarActive {
+  background-color: var(--color-primary);
+}
+
+.trendBarContainer:hover .trendBar {
+  background-color: var(--color-primary);
+  opacity: 0.8;
+}
+
+.trendLabel {
+  font-size: 0.625rem;
+  color: var(--color-secondary);
+  margin-top: 0.25rem;
+}
+
+.trendTooltip {
+  position: absolute;
+  top: -1.5rem;
+  background-color: var(--color-on-surface);
+  color: var(--color-surface);
+  font-size: 0.625rem;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.trendBarContainer:hover .trendTooltip {
+  opacity: 1;
 }
 
 /* Chart Section */
@@ -162,6 +283,84 @@
   letter-spacing: -0.05em;
 }
 
+/* Month Chart Toggle & Bar Chart */
+.monthChartWrapper {
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.4s ease-out 0.04s both;
+}
+
+.chartToggle {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.toggleBtn {
+  background-color: var(--color-surface-container-low);
+  color: var(--color-secondary);
+  border: none;
+  border-radius: 9999px;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggleBtnActive {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.categoryBarChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.catBarItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.catBarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.catBarName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.catBarPct {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.catBarTrack {
+  height: 0.5rem;
+  background-color: var(--color-surface-container-high);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.catBarFill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 9999px;
+  transition: width 0.5s ease-out;
+}
+
 /* Budget Section */
 .budgetSection {
   background-color: var(--color-surface-container-lowest);
@@ -189,7 +388,12 @@
   color: var(--color-secondary);
 }
 
-.editBudgetBtn {
+.budgetActionButtons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.editBudgetBtn, .deleteBudgetBtn {
   background: none;
   border: none;
   color: var(--color-secondary);
@@ -199,11 +403,17 @@
   justify-content: center;
   padding: 0.25rem;
   border-radius: 9999px;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .editBudgetBtn:hover { background-color: var(--color-surface-container); }
 .editBudgetBtn span { font-size: 1rem; }
+
+.deleteBudgetBtn:hover { 
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+.deleteBudgetBtn span { font-size: 1rem; }
 
 .budgetEdit {
   display: flex;
@@ -277,7 +487,204 @@
 }
 
 .cancelBudgetBtn:hover {
-  background-color: var(--color-surface-container);
+  background-color: var(--color-surface-variant);
+}
+
+/* Yearly Statistics */
+.yearlyStatsWrapper {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.yearlySummaryCards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.summaryCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-surface-variant);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.summaryLabel {
+  font-size: 0.75rem;
+  color: var(--color-secondary);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.summaryValue {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.positive {
+  color: #10b981; /* Green */
+}
+
+.negative {
+  color: #ef4444; /* Red */
+}
+
+.yearlyChartContainer {
+  background-color: var(--color-surface);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.chartTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.yearlyChartLegend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+}
+
+.legendColorInc, .legendColorExp {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.legendColorInc {
+  background-color: #3b82f6; /* Blue for Income */
+}
+
+.legendColorExp {
+  background-color: #f59e0b; /* Amber/Orange for Expense */
+}
+
+.yearlyChart {
+  display: flex;
+  flex-direction: column;
+  height: 260px;
+  padding-top: 1.5rem;
+}
+
+.yearlyBarsOverlay {
+  position: relative;
+  flex: 1;
+  width: 100%;
+}
+
+.yearlyLineSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  overflow: visible;
+}
+
+.yearlyBarsFlex {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 2;
+}
+
+.yearlyLabelsFlex {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.yearlyMonthGroup {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.yearlyLabelGroup {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.yearlyBarExpWrapper {
+  position: relative;
+  width: 50%;
+  max-width: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.yearlyBarExp {
+  width: 100%;
+  background-color: #f59e0b;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.yearlyLabel {
+  font-size: 0.65rem;
+  color: var(--color-secondary);
+  white-space: nowrap;
+}
+
+.yearlyBarExpWrapper:hover .trendTooltip {
+  opacity: 1;
+}
+
+.yearlyAvgFooter {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--color-surface-container-high);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.yearlyAvgLabel {
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+  font-weight: 500;
+}
+
+.yearlyAvgValue {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-primary);
 }
 
 .createBudgetBtn {
@@ -448,6 +855,46 @@
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.025em;
+}
+
+.expandedTxList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-surface-container-high);
+  animation: fadeInUp 0.2s ease-out both;
+}
+
+.expandedTxItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.expandedTxLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.expandedTxTime {
+  font-size: 0.625rem;
+  color: var(--color-secondary);
+}
+
+.expandedTxNote {
+  font-size: 0.75rem;
+  color: var(--color-on-surface);
+  font-weight: 500;
+}
+
+.expandedTxAmount {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-on-surface);
 }
 
 /* Category Group Label (separates income vs expense) */

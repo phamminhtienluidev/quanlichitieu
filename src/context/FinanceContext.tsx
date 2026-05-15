@@ -16,6 +16,7 @@ import {
   getAllBudgets,
   setBudget as fsSetBudget,
   deleteBudget as fsDeleteBudget,
+  deleteTransactions as fsDeleteTransactions,
   getTransactionsFromCache,
   getCategoriesFromCache,
   getAllBudgetsFromCache,
@@ -39,10 +40,12 @@ interface FinanceContextType {
   addCategory: (cat: Omit<Category, "id" | "userId" | "createdAt">) => Promise<void>;
   deleteCategory: (catId: string) => Promise<void>;
   setBudget: (budget: Omit<Budget, "id" | "userId" | "createdAt">) => Promise<void>;
-  deleteBudget: (categoryName: string, year: number, month: number) => Promise<void>;
+  deleteBudget: (budgetId: string) => Promise<void>;
   getTransactionsByDate: (dateStr: string) => Transaction[];
   getTransactionsByMonth: (year: number, month: number) => Transaction[];
+  getTransactionsByYear: (year: number) => Transaction[];
   getNetWorthAsOfDate: (dateStr: string) => number;
+  deleteTransactionsData: (condition: { type: "date"; dateStr: string } | { type: "month"; year: number; month: number } | { type: "year"; year: number } | { type: "all" }) => Promise<void>;
   isReady: boolean;
   reload: () => Promise<void>;
 }
@@ -149,20 +152,34 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     tx: Omit<Transaction, "id" | "userId" | "createdAt">
   ) => {
     if (!user?.uid) return;
-    const newId = await fsAddTransaction(user.uid, tx);
+    const catName = categories.find((c) => c.id === tx.categoryId)?.name || "Khác";
+    const newId = await fsAddTransaction(user.uid, tx, catName);
     setTransactions((prev) => [{ ...tx, id: newId, userId: user.uid }, ...prev]);
   };
 
   const deleteTransaction = async (txId: string) => {
-    await fsDeleteTransaction(txId);
+    const oldData = transactions.find(t => t.id === txId);
+    const catName = oldData ? categories.find(c => c.id === oldData.categoryId)?.name || "Khác" : "Khác";
+    await fsDeleteTransaction(txId, oldData, catName);
     setTransactions((prev) => prev.filter((t) => t.id !== txId));
+  };
+
+  const deleteTransactionsData = async (
+    condition: { type: "date"; dateStr: string } | { type: "month"; year: number; month: number } | { type: "year"; year: number } | { type: "all" }
+  ) => {
+    if (!user?.uid) return;
+    await fsDeleteTransactions(user.uid, condition);
+    // Sau khi xóa dữ liệu trên db, gọi reload để fetch lại state hoặc filter local state
+    // Cách dễ nhất là tải lại từ db
+    await loadAll(user.uid);
   };
 
   const updateTransaction = async (
     txId: string,
     data: Partial<Omit<Transaction, "id" | "userId" | "createdAt">>
   ) => {
-    await fsUpdateTransaction(txId, data);
+    const oldData = transactions.find(t => t.id === txId);
+    await fsUpdateTransaction(txId, data, oldData);
     setTransactions((prev) =>
       prev.map((t) => (t.id === txId ? { ...t, ...data } : t))
     );
@@ -195,19 +212,10 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     setBudgets(updated);
   };
 
-  const deleteBudget = async (
-    categoryName: string,
-    year: number,
-    month: number
-  ) => {
+  const deleteBudget = async (budgetId: string) => {
     if (!user?.uid) return;
-    await fsDeleteBudget(user.uid, categoryName, year, month);
-    setBudgets((prev) =>
-      prev.filter(
-        (b) =>
-          !(b.categoryName === categoryName && b.year === year && b.month === month)
-      )
-    );
+    await fsDeleteBudget(budgetId);
+    setBudgets((prev) => prev.filter((b) => b.id !== budgetId));
   };
 
   // ── Query helpers ──────────────────────────────────────────────────────────
@@ -218,6 +226,12 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     transactions.filter((tx) => {
       const d = new Date(tx.date);
       return d.getFullYear() === year && d.getMonth() === month;
+    });
+
+  const getTransactionsByYear = (year: number) =>
+    transactions.filter((tx) => {
+      const d = new Date(tx.date);
+      return d.getFullYear() === year;
     });
 
   const getNetWorthAsOfDate = (dateStr: string) => {
@@ -248,7 +262,9 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
         deleteBudget,
         getTransactionsByDate,
         getTransactionsByMonth,
+        getTransactionsByYear,
         getNetWorthAsOfDate,
+        deleteTransactionsData,
         isReady,
         reload: () => (user?.uid ? loadAll(user.uid) : Promise.resolve()),
       }}

@@ -54,37 +54,13 @@
   margin-bottom: 1.5rem;
 }
 
-.avatarFileInput {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .avatarTouchable {
   position: relative;
   display: inline-block;
   padding: 0;
   border: none;
   background: none;
-  cursor: pointer;
   border-radius: 9999px;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.avatarTouchable:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 4px;
-}
-
-.avatarTouchable:disabled {
-  opacity: 0.75;
-  cursor: wait;
 }
 
 .avatarPhoto {
@@ -92,48 +68,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-.avatarSpinner {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 2.25rem;
-  height: 2.25rem;
-  border: 3px solid var(--color-outline-variant);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: avatarSpin 0.65s linear infinite;
-}
-
-@keyframes avatarSpin {
-  to { transform: rotate(360deg); }
-}
-
-.avatarCamBadge {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  background: var(--color-surface);
-  color: var(--color-on-surface);
-  padding: 0.3rem;
-  border-radius: 9999px;
-  border: 2px solid var(--color-surface);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.avatarHint {
-  font-size: 0.75rem;
-  color: var(--color-secondary);
-  text-align: center;
-  max-width: 19rem;
-  margin: -0.5rem auto 0.75rem;
-  line-height: 1.4;
 }
 
 .avatarSvgWrap {
@@ -581,4 +515,99 @@ button.settingsItem:hover .settingsAction {
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Delete Data Section */
+.deleteDataForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--color-surface-container-high);
+}
+
+.deleteModeTabs {
+  display: flex;
+  background: var(--color-surface-container);
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  gap: 0.25rem;
+}
+
+.deleteModeTab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.deleteModeTabActive {
+  background: var(--color-surface-container-lowest);
+  color: var(--color-primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.deleteInputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+}
+
+.deleteInput {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-outline-variant);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.deleteInput:focus {
+  border-color: var(--color-primary);
+}
+
+.deleteWarningText {
+  font-size: 0.75rem;
+  color: var(--color-error, #cf6679);
+  text-align: center;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.deleteActionBtn {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: rgba(207, 102, 121, 0.1);
+  color: var(--color-error, #cf6679);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteActionBtn:hover:not(:disabled) {
+  background: rgba(207, 102, 121, 0.2);
+}
+
+.deleteActionBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

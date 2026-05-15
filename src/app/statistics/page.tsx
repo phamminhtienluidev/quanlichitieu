@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import styles from "./page.module.css";
 import { useFinance } from "@/context/FinanceContext";
 import { useAuth } from "@/context/AuthContext";
 import { useUserPreferences } from "@/context/UserPreferencesContext";
+import { Transaction } from "@/lib/firestoreService";
 
 export default function StatisticsPage() {
   const { user } = useAuth();
@@ -15,9 +16,12 @@ export default function StatisticsPage() {
   const {
     categories: globalCategories,
     budgets: allBudgets,
+    getTransactionsByDate,
     getTransactionsByMonth,
+    getTransactionsByYear,
     getNetWorthAsOfDate,
     setBudget,
+    deleteBudget,
     isReady,
   } = useFinance();
 
@@ -26,22 +30,67 @@ export default function StatisticsPage() {
   const [budgetCategory, setBudgetCategory] = useState("");
 
   const [currentDate, setCurrentDate] = useState<Date>(() => new Date());
+  const [statPeriod, setStatPeriod] = useState<"day" | "month" | "year">("month");
+  const [monthChartType, setMonthChartType] = useState<"pie" | "bar">("pie");
 
-  const handlePrevMonth = () => {
-    setCurrentDate(prev => prev ? new Date(prev.getFullYear(), prev.getMonth() - 1, 1) : new Date());
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (statPeriod === "day" && chartRef.current) {
+      const activeElement = chartRef.current.querySelector(`.${styles.trendBarActive}`)?.parentElement;
+      if (activeElement) {
+        const containerWidth = chartRef.current.clientWidth;
+        const elementLeft = activeElement.offsetLeft;
+        const elementWidth = activeElement.clientWidth;
+        const scrollPosition = elementLeft - (containerWidth / 2) + (elementWidth / 2);
+        
+        chartRef.current.scrollTo({
+          left: scrollPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [currentDate, statPeriod]);
+
+  const handlePrev = () => {
+    setCurrentDate(prev => {
+      if (!prev) return new Date();
+      if (statPeriod === "day") {
+        return new Date(prev.getFullYear(), prev.getMonth(), prev.getDate() - 1);
+      } else if (statPeriod === "month") {
+        return new Date(prev.getFullYear(), prev.getMonth() - 1, 1);
+      } else {
+        return new Date(prev.getFullYear() - 1, 0, 1);
+      }
+    });
   };
 
-  const handleNextMonth = () => {
-    setCurrentDate(prev => prev ? new Date(prev.getFullYear(), prev.getMonth() + 1, 1) : new Date());
+  const handleNext = () => {
+    setCurrentDate(prev => {
+      if (!prev) return new Date();
+      if (statPeriod === "day") {
+        return new Date(prev.getFullYear(), prev.getMonth(), prev.getDate() + 1);
+      } else if (statPeriod === "month") {
+        return new Date(prev.getFullYear(), prev.getMonth() + 1, 1);
+      } else {
+        return new Date(prev.getFullYear() + 1, 0, 1);
+      }
+    });
   };
 
-  const monthTitle = currentDate.toLocaleString('vi-VN', { day: 'numeric', month: 'long', year: 'numeric' });
+  let periodTitle = "";
+  if (statPeriod === "day") {
+    periodTitle = currentDate.toLocaleDateString('vi-VN', { day: 'numeric', month: 'numeric', year: 'numeric' });
+  } else if (statPeriod === "month") {
+    periodTitle = `Tháng ${currentDate.getMonth() + 1}, ${currentDate.getFullYear()}`;
+  } else {
+    periodTitle = `Năm ${currentDate.getFullYear()}`;
+  }
 
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
   const monthIndex0 = currentDate.getMonth();
   const lastDayOfMonth = new Date(currentYear, monthIndex0 + 1, 0);
-  const endOfMonthStr = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
 
   const monthBudgets = allBudgets.filter(
     (b) => b.year === currentYear && b.month === currentMonth
@@ -70,16 +119,33 @@ export default function StatisticsPage() {
     return null;
   }
 
-  const netWorthEndOfMonth = getNetWorthAsOfDate(endOfMonthStr);
+  let targetDateStr = "";
+  if (statPeriod === "day") {
+    targetDateStr = `${currentYear}-${String(currentMonth).padStart(2, "0")}-${String(currentDate.getDate()).padStart(2, "0")}`;
+  } else if (statPeriod === "month") {
+    targetDateStr = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
+  } else {
+    targetDateStr = `${currentYear}-12-31`;
+  }
+  const netWorthEndPeriod = getNetWorthAsOfDate(targetDateStr);
 
-  const monthTx = getTransactionsByMonth(currentYear, monthIndex0);
+  let periodTx: Transaction[] = [];
+  if (statPeriod === "day") {
+    const dateStr = `${currentYear}-${String(currentMonth).padStart(2, "0")}-${String(currentDate.getDate()).padStart(2, "0")}`;
+    periodTx = getTransactionsByDate(dateStr);
+  } else if (statPeriod === "month") {
+    periodTx = getTransactionsByMonth(currentYear, monthIndex0);
+  } else {
+    periodTx = getTransactionsByYear(currentYear);
+  }
+
   let totalExpense = 0;
   let totalIncome = 0;
 
   const catExpenseAmounts: Record<string, number> = {};
   const catIncomeAmounts: Record<string, number> = {};
 
-  monthTx.forEach(tx => {
+  periodTx.forEach(tx => {
     if (tx.type === "expense") {
       catExpenseAmounts[tx.categoryId] = (catExpenseAmounts[tx.categoryId] || 0) + tx.amount;
       totalExpense += tx.amount;
@@ -96,7 +162,8 @@ export default function StatisticsPage() {
       icon: c.icon,
       amount: catExpenseAmounts[c.id] || 0,
       amountStr: formatMoney(catExpenseAmounts[c.id] || 0),
-      pct: `${totalExpense > 0 ? Math.round(((catExpenseAmounts[c.id] || 0) / totalExpense) * 100) : 0}%`
+      pct: `${totalExpense > 0 ? Math.round(((catExpenseAmounts[c.id] || 0) / totalExpense) * 100) : 0}%`,
+      transactions: periodTx.filter(t => t.categoryId === c.id && t.type === "expense")
     }))
     .filter(c => c.amount > 0);
 
@@ -107,63 +174,174 @@ export default function StatisticsPage() {
       icon: c.icon,
       amount: catIncomeAmounts[c.id] || 0,
       amountStr: formatMoney(catIncomeAmounts[c.id] || 0),
-      pct: `${totalIncome > 0 ? Math.round(((catIncomeAmounts[c.id] || 0) / totalIncome) * 100) : 0}%`
+      pct: `${totalIncome > 0 ? Math.round(((catIncomeAmounts[c.id] || 0) / totalIncome) * 100) : 0}%`,
+      transactions: periodTx.filter(t => t.categoryId === c.id && t.type === "income")
     }))
     .filter(c => c.amount > 0);
+
+  // Tính toán dữ liệu biểu đồ cột (chỉ hiển thị ở tab "Theo ngày")
+  let trendData: { label: string, value: number, active?: boolean, fullDate?: Date }[] = [];
+  let periodLabelForChart = "";
+
+  if (statPeriod === "day") {
+    // Hiển thị tất cả các ngày trong tháng của currentDate
+    const daysInMonth = lastDayOfMonth.getDate();
+    for (let i = 1; i <= daysInMonth; i++) {
+      const dateStr = `${currentYear}-${String(currentMonth).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
+      const dayTx = getTransactionsByDate(dateStr);
+      const expense = dayTx.filter(t => t.type === "expense").reduce((s, t) => s + t.amount, 0);
+      trendData.push({
+        label: `${i}/${currentMonth}`,
+        value: expense,
+        active: i === currentDate.getDate(),
+        fullDate: new Date(currentYear, currentMonth - 1, i)
+      });
+    }
+    periodLabelForChart = `tháng ${currentMonth}`;
+  }
+
+  const maxTrendVal = Math.max(...trendData.map(d => d.value), 1);
+
+  // Tính toán dữ liệu cho biểu đồ năm (chỉ hiển thị ở tab "Theo năm")
+  let yearlyChartData: { month: number; income: number; expense: number; label: string }[] = [];
+  let yearlyTotalIncome = 0;
+  let yearlyTotalExpense = 0;
+
+  if (statPeriod === "year") {
+    let accIncome = 0;
+    let accExpense = 0;
+    for (let m = 1; m <= 12; m++) {
+      const monthPrefix = `${currentYear}-${String(m).padStart(2, "0")}`;
+      const mTx = periodTx.filter(t => t.date.startsWith(monthPrefix));
+      
+      const mIncome = mTx.filter(t => t.type === "income").reduce((s, t) => s + t.amount, 0);
+      const mExpense = mTx.filter(t => t.type === "expense").reduce((s, t) => s + t.amount, 0);
+      
+      accIncome += mIncome;
+      accExpense += mExpense;
+
+      yearlyTotalIncome += mIncome;
+      yearlyTotalExpense += mExpense;
+      
+      yearlyChartData.push({
+        month: m,
+        income: accIncome,
+        expense: accExpense,
+        label: `Th ${m}`
+      });
+    }
+  }
+
+  const yearlyAccumulated = yearlyTotalIncome - yearlyTotalExpense;
+  const currentMonthNum = new Date().getFullYear() === currentYear ? new Date().getMonth() + 1 : 12;
+  const avgMonthlyExpense = yearlyTotalExpense / Math.max(currentMonthNum, 1);
+  const maxYearlyVal = Math.max(...yearlyChartData.flatMap(d => [d.income, d.expense]), 1);
 
   return (
     <>
       <Header />
       <main className={styles.main}>
-        {/* Monthly Selector */}
+        {/* Period Tabs */}
+        <div className={styles.periodTabs}>
+          <button className={`${styles.periodTab} ${statPeriod === 'day' ? styles.periodTabActive : ''}`} onClick={() => setStatPeriod('day')}>Theo ngày</button>
+          <button className={`${styles.periodTab} ${statPeriod === 'month' ? styles.periodTabActive : ''}`} onClick={() => setStatPeriod('month')}>Theo tháng</button>
+          <button className={`${styles.periodTab} ${statPeriod === 'year' ? styles.periodTabActive : ''}`} onClick={() => setStatPeriod('year')}>Theo năm</button>
+        </div>
+
+        {/* Date Selector */}
         <div className={styles.monthSelector}>
-          <button className={styles.navArrow} onClick={handlePrevMonth}>
+          <button className={styles.navArrow} onClick={handlePrev}>
             <span className="material-symbols-outlined">chevron_left</span>
           </button>
-          <Link href="/calendar" className={styles.monthCenter}>
-            <p className={styles.fiscalLabel}>Kỳ thống kê</p>
-            <h2 className={styles.monthTitle}>{monthTitle}</h2>
-          </Link>
-          <button className={styles.navArrow} onClick={handleNextMonth}>
+          <div className={styles.monthCenter}>
+            <h2 className={styles.monthTitle}>{periodTitle}</h2>
+          </div>
+          <button className={styles.navArrow} onClick={handleNext}>
             <span className="material-symbols-outlined">chevron_right</span>
           </button>
         </div>
 
-        <section className={styles.statNetHero} aria-label="Tài sản ròng cuối kỳ">
-          <span className={styles.statNetDate}>
-            {lastDayOfMonth.toLocaleString("vi-VN", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </span>
-          <span className={styles.statNetLabel}>Tài sản ròng còn lại</span>
-          <div className={styles.statNetValue}>
-            <h2 className={styles.statNetAmount}>{formatMoney(netWorthEndOfMonth)}</h2>
+        {/* Trend Chart (Chỉ hiện ở tab Theo ngày) */}
+        {statPeriod === "day" && (
+          <div className={styles.trendChartWrapper}>
+            <div className={styles.trendChart} ref={chartRef}>
+              {trendData.map((item, i) => {
+                const heightPct = Math.max((item.value / maxTrendVal) * 100, 2);
+                return (
+                  <div key={i} className={styles.trendBarContainer} onClick={() => {
+                    if (item.fullDate) setCurrentDate(item.fullDate);
+                  }} style={{ cursor: 'pointer' }}>
+                    <div className={styles.trendTooltip}>{formatMoney(item.value)}</div>
+                    <div className={`${styles.trendBar} ${item.active ? styles.trendBarActive : ''}`} style={{ height: `${heightPct}%` }}></div>
+                    <span className={styles.trendLabel}>{item.label}</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <div className={styles.statNetTrend}>
-            <span className="material-symbols-outlined">account_balance</span>
-            <span className={styles.statNetTrendText}>Lũy kế đến cuối tháng</span>
-          </div>
-        </section>
+        )}
 
-        {/* Pie Chart Section */}
-        <section className={styles.chartSection}>
-          <PieChart categories={expenseCategories} totalExpense={totalExpense} />
-          <div className={styles.chartSummary}>
-            <p className={styles.chartLabel}>Tổng chi tiêu</p>
-            <p className={styles.chartValue}>{formatMoney(totalExpense)}</p>
+
+
+        {/* Category Chart Section (Month & Year) */}
+        {(statPeriod === 'month' || statPeriod === 'year') && expenseCategories.length > 0 && (
+          <div className={styles.monthChartWrapper}>
+            <div className={styles.chartToggle}>
+              <button 
+                className={`${styles.toggleBtn} ${monthChartType === 'pie' ? styles.toggleBtnActive : ''}`}
+                onClick={() => setMonthChartType('pie')}
+                aria-label="Biểu đồ tròn"
+              >
+                <span className="material-symbols-outlined">pie_chart</span>
+              </button>
+              <button 
+                className={`${styles.toggleBtn} ${monthChartType === 'bar' ? styles.toggleBtnActive : ''}`}
+                onClick={() => setMonthChartType('bar')}
+                aria-label="Biểu đồ ngang"
+              >
+                <span className="material-symbols-outlined">bar_chart</span>
+              </button>
+            </div>
+            
+            {monthChartType === 'pie' ? (
+              <div className={styles.chartSection}>
+                <PieChart categories={expenseCategories} totalExpense={totalExpense} />
+              </div>
+            ) : (
+              <div className={styles.categoryBarChart}>
+                {expenseCategories.map(cat => {
+                  const pctNum = totalExpense > 0 ? (cat.amount / totalExpense) * 100 : 0;
+                  return (
+                    <div key={`bar-${cat.id}`} className={styles.catBarItem}>
+                      <div className={styles.catBarHeader}>
+                        <span className={styles.catBarName}>{cat.name}</span>
+                        <span className={styles.catBarPct}>{Math.round(pctNum)}%</span>
+                      </div>
+                      <div className={styles.catBarTrack}>
+                        <div className={styles.catBarFill} style={{ width: `${pctNum}%` }}></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            <div className={styles.chartSummary}>
+              <p className={styles.chartLabel}>Tổng chi tiêu trong {statPeriod === 'month' ? 'tháng' : 'năm'}</p>
+              <p className={styles.chartValue}>{formatMoney(totalExpense)}</p>
+            </div>
           </div>
-        </section>
+        )}
 
         {/* Budgets Section */}
+        {statPeriod === 'month' && (
         <section className={styles.budgetSection}>
           <div className={styles.budgetHeader}>
             <span className={styles.budgetLabel}>Giới hạn ngân sách</span>
             {!isEditingBudget && monthBudgets.length > 0 && (
               <button className={styles.createSmallBtn} onClick={() => {
                 setBudgetInput("");
-                setBudgetCategory(globalCategories.find(c => !monthBudgets.find(b => b.categoryName === c.name))?.name || globalCategories[0].name);
+                const availableCats = globalCategories.filter(c => c.name.toLowerCase() !== "lương");
+                setBudgetCategory(availableCats.find(c => !monthBudgets.find(b => b.categoryName === c.name))?.name || availableCats[0]?.name || "");
                 setIsEditingBudget(true);
               }}>
                 <span className="material-symbols-outlined">add</span>
@@ -178,7 +356,7 @@ export default function StatisticsPage() {
                 onChange={e => setBudgetCategory(e.target.value)}
                 className={styles.budgetSelect}
               >
-                {globalCategories.map(cat => (
+                {globalCategories.filter(c => c.name.toLowerCase() !== "lương").map(cat => (
                   <option key={cat.id} value={cat.name}>{cat.name}</option>
                 ))}
               </select>
@@ -200,7 +378,8 @@ export default function StatisticsPage() {
 
           {!isEditingBudget && monthBudgets.length === 0 && (
             <button className={styles.createBudgetBtn} onClick={() => {
-              setBudgetCategory(globalCategories[0]?.name || "");
+              const availableCats = globalCategories.filter(c => c.name.toLowerCase() !== "lương");
+              setBudgetCategory(availableCats[0]?.name || "");
               setIsEditingBudget(true);
             }}>
               <span className="material-symbols-outlined">add</span>
@@ -222,9 +401,14 @@ export default function StatisticsPage() {
                     <span className="material-symbols-outlined">{catData?.icon || 'category'}</span>
                     <span className={styles.budgetName}>{budget.categoryName}</span>
                   </div>
-                  <button className={styles.editBudgetBtn} onClick={() => handleEditBudget(budget.categoryName, budget.limit)}>
-                    <span className="material-symbols-outlined">edit</span>
-                  </button>
+                  <div className={styles.budgetActionButtons}>
+                    <button className={styles.editBudgetBtn} onClick={() => handleEditBudget(budget.categoryName, budget.limit)}>
+                      <span className="material-symbols-outlined">edit</span>
+                    </button>
+                    <button className={styles.deleteBudgetBtn} onClick={() => deleteBudget(budget.id)}>
+                      <span className="material-symbols-outlined">delete</span>
+                    </button>
+                  </div>
                 </div>
                 <div className={styles.budgetProgress}>
                   <div className={styles.progressBar}>
@@ -255,23 +439,94 @@ export default function StatisticsPage() {
             );
           })}
         </section>
+        )}
+
+        {/* Yearly Statistics Section */}
+        {statPeriod === "year" && (
+          <div className={styles.yearlyStatsWrapper}>
+            <div className={styles.yearlyChartContainer}>
+              <h3 className={styles.chartTitle}>Cộng dồn Thu nhập & Chi tiêu</h3>
+              <div className={styles.yearlyChartLegend}>
+                <div className={styles.legendItem}>
+                  <div className={styles.legendColorInc} style={{borderRadius: '50%', height: '10px', width: '10px'}}></div> Thu nhập (Đường)
+                </div>
+                <div className={styles.legendItem}>
+                  <div className={styles.legendColorExp}></div> Chi tiêu (Cột)
+                </div>
+              </div>
+
+              <div className={styles.yearlyChart}>
+                <div className={styles.yearlyBarsOverlay}>
+                  <svg className={styles.yearlyLineSvg} width="100%" height="100%">
+                    {yearlyChartData.map((item, i) => {
+                      if (i === 0) return null;
+                      const prev = yearlyChartData[i - 1];
+                      const x1 = `${(i - 0.5) * (100 / 12)}%`;
+                      const y1 = `${100 - (prev.income / maxYearlyVal) * 100}%`;
+                      const x2 = `${(i + 0.5) * (100 / 12)}%`;
+                      const y2 = `${100 - (item.income / maxYearlyVal) * 100}%`;
+                      
+                      return (
+                        <line 
+                          key={`line-${i}`}
+                          x1={x1} y1={y1} x2={x2} y2={y2}
+                          stroke="#3b82f6" strokeWidth="2.5" 
+                          strokeLinecap="round"
+                        />
+                      );
+                    })}
+                    {yearlyChartData.map((item, i) => {
+                      const cx = `${(i + 0.5) * (100 / 12)}%`;
+                      const cy = `${100 - (item.income / maxYearlyVal) * 100}%`;
+                      return (
+                        <circle key={`circle-${i}`} cx={cx} cy={cy} r="4" fill="#3b82f6" stroke="#fff" strokeWidth="2" />
+                      );
+                    })}
+                  </svg>
+                  
+                  <div className={styles.yearlyBarsFlex}>
+                    {yearlyChartData.map((item) => {
+                      const expHeight = Math.max((item.expense / maxYearlyVal) * 100, 0);
+                      return (
+                        <div key={item.month} className={styles.yearlyMonthGroup}>
+                          <div className={styles.yearlyBarExpWrapper}>
+                            <div className={styles.trendTooltip} style={{ whiteSpace: 'pre-wrap', textAlign: 'center' }}>
+                              Thu: {formatMoney(item.income)}
+                              {"\n"}
+                              Chi: {formatMoney(item.expense)}
+                            </div>
+                            <div className={styles.yearlyBarExp} style={{ height: `${expHeight}%` }}></div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className={styles.yearlyLabelsFlex}>
+                  {yearlyChartData.map((item) => (
+                    <div key={item.month} className={styles.yearlyLabelGroup}>
+                      <span className={styles.yearlyLabel}>{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className={styles.yearlyAvgFooter}>
+                <span className={styles.yearlyAvgLabel}>Trung bình chi tiêu / tháng:</span>
+                <span className={styles.yearlyAvgValue}>{formatMoney(avgMonthlyExpense)}</span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Category Insights: Expense */}
         {expenseCategories.length > 0 && (
           <>
-            <p className={styles.categoryGroupLabel}>Chi tiêu tháng này</p>
+            <p className={styles.categoryGroupLabel}>Chi tiêu kỳ này</p>
             <div className={styles.categoryGrid}>
               {expenseCategories.map((cat) => (
-                <div key={cat.id} className={styles.categoryCard}>
-                  <div className={styles.categoryTop}>
-                    <span className={styles.categoryName}>{cat.name}</span>
-                    <span className={styles.categoryBadge}>{cat.pct}</span>
-                  </div>
-                  <div className={styles.categoryBottom}>
-                    <p className={styles.categoryAmount}>{cat.amountStr}</p>
-                    <span className="material-symbols-outlined">{cat.icon}</span>
-                  </div>
-                </div>
+                <StatCategoryItem key={cat.id} cat={cat} isIncome={false} formatMoney={formatMoney} statPeriod={statPeriod} />
               ))}
             </div>
           </>
@@ -280,19 +535,10 @@ export default function StatisticsPage() {
         {/* Category Insights: Income */}
         {incomeCategories.length > 0 && (
           <>
-            <p className={styles.categoryGroupLabel}>Thu nhập tháng này</p>
+            <p className={styles.categoryGroupLabel}>Thu nhập kỳ này</p>
             <div className={styles.categoryGrid}>
               {incomeCategories.map((cat) => (
-                <div key={cat.id} className={`${styles.categoryCard} ${styles.categoryCardIncome}`}>
-                  <div className={styles.categoryTop}>
-                    <span className={styles.categoryName}>{cat.name}</span>
-                    <span className={styles.categoryBadge}>{cat.pct}</span>
-                  </div>
-                  <div className={styles.categoryBottom}>
-                    <p className={styles.categoryAmount}>+{cat.amountStr}</p>
-                    <span className="material-symbols-outlined">{cat.icon}</span>
-                  </div>
-                </div>
+                <StatCategoryItem key={cat.id} cat={cat} isIncome={true} formatMoney={formatMoney} statPeriod={statPeriod} />
               ))}
             </div>
           </>
@@ -300,39 +546,63 @@ export default function StatisticsPage() {
 
         {expenseCategories.length === 0 && incomeCategories.length === 0 && (
           <p style={{ textAlign: 'center', color: 'var(--color-on-surface-variant)', fontSize: '0.875rem', padding: '1rem 0' }}>
-            Chưa có giao dịch nào trong tháng này.
+            Chưa có giao dịch nào trong kỳ này.
           </p>
         )}
-
-        {/* View Daily Link */}
-        <Link
-          href="/statistics/daily"
-          className={styles.dailyLink}
-          onClick={() => {
-            // #region agent log
-            fetch("http://127.0.0.1:7383/ingest/29705d7e-3fb2-4059-a91d-ceacf846c677", {
-              method: "POST",
-              headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "9f523b" },
-              body: JSON.stringify({
-                sessionId: "9f523b",
-                location: "statistics/page.tsx:dailyLink",
-                message: "user navigates to daily statistics",
-                data: { href: "/statistics/daily" },
-                timestamp: Date.now(),
-                hypothesisId: "H2",
-                runId: "route-fix",
-              }),
-            }).catch(() => {});
-            // #endregion
-          }}
-        >
-          <span className="material-symbols-outlined">insights</span>
-          <span>Xem chi tiết theo ngày</span>
-          <span className="material-symbols-outlined" style={{ marginLeft: "auto", fontSize: "1.125rem" }}>arrow_forward</span>
-        </Link>
       </main>
       <BottomNav />
     </>
+  );
+}
+
+// --- Stat Category Item Component ---
+function StatCategoryItem({ cat, isIncome, formatMoney, statPeriod }: {
+  cat: { name: string; icon: string; amountStr: string; pct: string; transactions: any[] };
+  isIncome: boolean;
+  formatMoney: (v: number) => string;
+  statPeriod: "day" | "month" | "year";
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const isExpandable = statPeriod === "day";
+
+  return (
+    <div 
+      className={`${styles.categoryCard} ${isIncome ? styles.categoryCardIncome : ''}`} 
+      onClick={() => isExpandable && setIsExpanded(!isExpanded)} 
+      style={{ cursor: isExpandable ? 'pointer' : 'default' }}
+    >
+      <div className={styles.categoryTop}>
+        <span className={styles.categoryName}>{cat.name}</span>
+        <span className={styles.categoryBadge}>{cat.pct}</span>
+      </div>
+      <div className={styles.categoryBottom}>
+        <p className={styles.categoryAmount}>{isIncome ? '+' : ''}{cat.amountStr}</p>
+        <span className="material-symbols-outlined">{cat.icon}</span>
+      </div>
+
+      {isExpandable && isExpanded && cat.transactions.length > 0 && (
+        <div className={styles.expandedTxList}>
+          {cat.transactions.map(tx => {
+            let timeStr = "";
+            if (tx.createdAt && typeof tx.createdAt.toDate === 'function') {
+              timeStr = tx.createdAt.toDate().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+            }
+            return (
+              <div key={`exp-${tx.id}`} className={styles.expandedTxItem}>
+                <div className={styles.expandedTxLeft}>
+                  {timeStr && <span className={styles.expandedTxTime}>{timeStr}</span>}
+                  <span className={styles.expandedTxNote}>{tx.note || "Không có ghi chú"}</span>
+                </div>
+                <span className={styles.expandedTxAmount}>
+                  {tx.type === "income" ? '+' : '-'}{formatMoney(tx.amount)}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -413,7 +683,7 @@ function PieChart({ categories, totalExpense }: { categories: PieCat[]; totalExp
     const isRight = Math.cos(midAngle) >= 0;
     const textX = cx + (leaderMidR + 12) * Math.cos(midAngle);
     const textY = cy + (leaderMidR + 4) * Math.sin(midAngle);
-    const textAnchor: "start" | "end" = isRight ? "start" : "end";
+    const textAnchor = isRight ? "start" : "end";
 
     return {
       path, midAngle, pctNum, color, fraction,
@@ -484,7 +754,7 @@ function PieChart({ categories, totalExpense }: { categories: PieCat[]; totalExp
               <text
                 x={textX}
                 y={textY - 7}
-                textAnchor={textAnchor}
+                textAnchor={textAnchor as "start" | "end" | "middle" | "inherit" | undefined}
                 dominantBaseline="middle"
                 fontSize="11"
                 fontWeight="700"
@@ -496,7 +766,7 @@ function PieChart({ categories, totalExpense }: { categories: PieCat[]; totalExp
               <text
                 x={textX}
                 y={textY + 7}
-                textAnchor={textAnchor}
+                textAnchor={textAnchor as "start" | "end" | "middle" | "inherit" | undefined}
                 dominantBaseline="middle"
                 fontSize="11"
                 fontWeight="400"

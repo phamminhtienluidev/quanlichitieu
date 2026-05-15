@@ -21,7 +21,18 @@ export default function DashboardPage() {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [transactionAmount, setTransactionAmount] = useState("");
+  const [transactionNote, setTransactionNote] = useState("");
   const [transactionType, setTransactionType] = useState<"income" | "expense">("expense");
+
+  const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
+
+  const handlePrevDay = () => {
+    setSelectedDate(prev => new Date(prev.getFullYear(), prev.getMonth(), prev.getDate() - 1));
+  };
+  
+  const handleNextDay = () => {
+    setSelectedDate(prev => new Date(prev.getFullYear(), prev.getMonth(), prev.getDate() + 1));
+  };
 
   const amountSuggestions = useMemo(
     () => getVndAmountSuggestions(transactionAmount),
@@ -41,6 +52,7 @@ export default function DashboardPage() {
     const cat = categories.find(c => c.id === categoryId);
     setTransactionType(cat?.name === "Lương" ? "income" : "expense");
     setTransactionAmount("");
+    setTransactionNote("");
     setShowTransactionModal(true);
   };
   
@@ -54,13 +66,22 @@ export default function DashboardPage() {
     if (selectedCategoryId !== null && transactionAmount) {
       const amount = parseFloat(transactionAmount);
       if (!isNaN(amount) && amount > 0) {
-        const todayStr = new Date().toISOString().split("T")[0];
-        addTransaction({
+        const yyyy = selectedDate.getFullYear();
+        const mm = String(selectedDate.getMonth() + 1).padStart(2, '0');
+        const dd = String(selectedDate.getDate()).padStart(2, '0');
+        const selectedDateStr = `${yyyy}-${mm}-${dd}`;
+        
+        const txData: any = {
           categoryId: selectedCategoryId,
           amount: amount,
           type: transactionType,
-          date: todayStr
-        });
+          date: selectedDateStr,
+        };
+        const trimmedNote = transactionNote.trim();
+        if (trimmedNote) {
+          txData.note = trimmedNote;
+        }
+        addTransaction(txData);
       }
       setShowTransactionModal(false);
     }
@@ -71,8 +92,11 @@ export default function DashboardPage() {
   }
 
   // Calculate Today's Stats
-  const todayStr = new Date().toISOString().split("T")[0];
-  const todaysTx = getTransactionsByDate(todayStr);
+  const yyyy = selectedDate.getFullYear();
+  const mm = String(selectedDate.getMonth() + 1).padStart(2, '0');
+  const dd = String(selectedDate.getDate()).padStart(2, '0');
+  const selectedDateStr = `${yyyy}-${mm}-${dd}`;
+  const todaysTx = getTransactionsByDate(selectedDateStr);
   let totalIncome = 0;
   let totalExpense = 0;
   todaysTx.forEach(t => {
@@ -81,13 +105,14 @@ export default function DashboardPage() {
   });
 
   // Calculate Month's Stats
-  const today = new Date();
-  const currentMonthTx = getTransactionsByMonth(today.getFullYear(), today.getMonth());
-  let monthNetWorth = 0;
+  const currentMonthTx = getTransactionsByMonth(selectedDate.getFullYear(), selectedDate.getMonth());
+  let monthIncome = 0;
+  let monthExpense = 0;
   currentMonthTx.forEach(t => {
-    if (t.type === "income") monthNetWorth += t.amount;
-    else monthNetWorth -= t.amount;
+    if (t.type === "income") monthIncome += t.amount;
+    else monthExpense += t.amount;
   });
+  let monthNetWorth = monthIncome - monthExpense;
 
   return (
     <>
@@ -95,9 +120,55 @@ export default function DashboardPage() {
       <main className={styles.main}>
         {/* Hero Balance Section */}
         <section className={styles.heroBalance}>
-          <span className={styles.dateLabel}>
-            {new Date().toLocaleString('vi-VN', { day: 'numeric', month: 'long', year: 'numeric' })}
-          </span>
+          <div className={styles.dateSelector}>
+            <button className={styles.dateNavBtn} onClick={handlePrevDay}>
+              <span className="material-symbols-outlined">chevron_left</span>
+            </button>
+            <div className={styles.dateCenter}>
+              <span className={styles.dateLabel}>
+                {selectedDate.toLocaleString('vi-VN', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </span>
+              <input 
+                type="date"
+                className={styles.hiddenDateInput}
+                value={selectedDateStr}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    setSelectedDate(new Date(e.target.value));
+                  }
+                }}
+              />
+            </div>
+            <button className={styles.dateNavBtn} onClick={handleNextDay}>
+              <span className="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
+
+          <div className={styles.monthIncomeContainer}>
+            <div className={styles.monthIncomeLeft}>
+              <span className={styles.monthIncomeLabel}>Thu nhập của tháng</span>
+              <span className={styles.monthIncomeAmount}>{formatMoney(monthIncome)}</span>
+            </div>
+            <button 
+              className={styles.addIncomeBtn}
+              onClick={() => {
+                const salaryCat = categories.find(c => c.name.toLowerCase() === "lương");
+                if (salaryCat) {
+                  setSelectedCategoryId(salaryCat.id);
+                  setTransactionType("income");
+                  setTransactionAmount("");
+                  setTransactionNote("");
+                  setShowTransactionModal(true);
+                } else {
+                  alert("Không tìm thấy danh mục 'Lương'. Vui lòng thêm danh mục 'Lương' để nhập thu nhập.");
+                }
+              }}
+            >
+              <span className="material-symbols-outlined">add</span>
+              Nhập thu nhập
+            </button>
+          </div>
+
           <span className={styles.balanceLabel}>Tài sản còn lại của tháng này</span>
           <div className={styles.balanceValue}>
             <h2 className={styles.amount}>{formatMoney(monthNetWorth)}</h2>
@@ -109,15 +180,8 @@ export default function DashboardPage() {
           <div className={styles.bentoCard}>
             <span className="material-symbols-outlined filled">shopping_cart</span>
             <div className={styles.cardContent}>
-              <span className={styles.cardLabel}>Chi tiêu hôm nay</span>
+              <span className={styles.cardLabel}>Chi tiêu trong ngày</span>
               <p className={styles.cardValue}>{formatMoney(totalExpense)}</p>
-            </div>
-          </div>
-          <div className={styles.bentoCard}>
-            <span className="material-symbols-outlined filled">account_balance_wallet</span>
-            <div className={styles.cardContent}>
-              <span className={styles.cardLabel}>Thu nhập hôm nay</span>
-              <p className={styles.cardValue}>{formatMoney(totalIncome)}</p>
             </div>
           </div>
         </section>
@@ -143,7 +207,7 @@ export default function DashboardPage() {
           </div>
 
           <div className={styles.categoryList}>
-            {categories.map((cat) => {
+            {categories.filter(c => c.name.toLowerCase() !== "lương").map((cat) => {
               const catTx = todaysTx.filter(t => t.categoryId === cat.id);
               return (
                 <CategoryItem 
@@ -187,14 +251,6 @@ export default function DashboardPage() {
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <h3 className={styles.modalTitle}>Thêm giao dịch mới</h3>
-            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', fontSize: '0.875rem' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                <input type="radio" checked={transactionType === 'expense'} onChange={() => setTransactionType('expense')} /> Chi phí
-              </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                <input type="radio" checked={transactionType === 'income'} onChange={() => setTransactionType('income')} /> Thu nhập
-              </label>
-            </div>
             <input
               type="number"
               className={styles.modalInput}
@@ -203,6 +259,13 @@ export default function DashboardPage() {
               value={transactionAmount}
               onChange={(e) => setTransactionAmount(e.target.value)}
               autoFocus
+            />
+            <input
+              type="text"
+              className={styles.modalInput}
+              placeholder="Ghi chú (tùy chọn)"
+              value={transactionNote}
+              onChange={(e) => setTransactionNote(e.target.value)}
             />
             {amountSuggestions.length > 0 && (
               <div>
@@ -245,7 +308,7 @@ function LoadingScreen() {
 function CategoryItem({ name, icon, transactions, formatMoney, onAdd, onDelete, isDeleteMode, onDeleteTx }: {
   name: string;
   icon: string;
-  transactions: Array<{ id: string; amount: number; type: string }>;
+  transactions: Array<{ id: string; amount: number; type: string; note?: string; createdAt?: any }>;
   formatMoney: (vnd: number) => string;
   onAdd: () => void;
   onDelete: () => void;
@@ -253,6 +316,7 @@ function CategoryItem({ name, icon, transactions, formatMoney, onAdd, onDelete, 
   onDeleteTx: (txId: string) => void;
 }) {
   const [deletingTxId, setDeletingTxId] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     if (!deletingTxId) return;
@@ -280,12 +344,9 @@ function CategoryItem({ name, icon, transactions, formatMoney, onAdd, onDelete, 
       : `${total > 0 ? "+" : ""}${formatMoney(Math.abs(total))}`;
 
   return (
-    <div className={styles.categoryItem}>
+    <div className={styles.categoryItem} onClick={() => setIsExpanded(!isExpanded)} style={{ cursor: 'pointer' }}>
       <div className={styles.itemTop}>
         <div className={styles.itemLeft}>
-          <div className={styles.iconCircle}>
-            <span className="material-symbols-outlined">{icon}</span>
-          </div>
           <div className={styles.itemInfo}>
             <span className={styles.itemName}>{name}</span>
             {displayAmount && <p className={styles.itemAmount}>{displayAmount}</p>}
@@ -334,6 +395,28 @@ function CategoryItem({ name, icon, transactions, formatMoney, onAdd, onDelete, 
               )}
             </button>
           ))}
+        </div>
+      )}
+
+      {isExpanded && transactions.length > 0 && (
+        <div className={styles.expandedTxList}>
+          {transactions.map(tx => {
+            let timeStr = "";
+            if (tx.createdAt && typeof tx.createdAt.toDate === 'function') {
+              timeStr = tx.createdAt.toDate().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+            }
+            return (
+              <div key={`exp-${tx.id}`} className={styles.expandedTxItem}>
+                <div className={styles.expandedTxLeft}>
+                  {timeStr && <span className={styles.expandedTxTime}>{timeStr}</span>}
+                  <span className={styles.expandedTxNote}>{tx.note || "Không có ghi chú"}</span>
+                </div>
+                <span className={styles.expandedTxAmount}>
+                  {tx.type === "income" ? '+' : '-'}{formatMoney(tx.amount)}
+                </span>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -39,6 +39,3 @@ export const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope("profile");
 googleProvider.addScope("email");
 
-export const facebookProvider = new FacebookAuthProvider();
-facebookProvider.addScope("public_profile");
-facebookProvider.addScope("email");
